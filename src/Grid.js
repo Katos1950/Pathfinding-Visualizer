@@ -1,7 +1,6 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import "./Grid.css";
 import { Djikstra } from "./Djikstra";
-import Node from "./Node";
 import { GridContext } from "./GridContext";
 
 export const Grid = () => {
@@ -37,22 +36,21 @@ export const Grid = () => {
         setGrid(resetGridState);
         const path = Djikstra(resetGridState, Rows, Cols);
         
+        //Display shoetest path slowly using setInterval
         let i = 0;
-        let dummyPath = []; // This will display the path step by step
+        let dummyPath = []; // Adding main path to dummy one by one
 
-        // Start interval to display path slowly
         const interval = setInterval(setShortestPathSlowly, 50);
 
         function setShortestPathSlowly() {
           if (i < path.length) {
-            dummyPath.push(path[i]); // Add the next element to dummyPath
+            dummyPath.push(path[i]);
             setShortestPath([...dummyPath]); // Update the displayed path
-            i++; // Move to the next element
+            i++; 
           } else {
             clearInterval(interval); // Stop the interval when all elements are displayed
           }
         }
-        
         //setShortestPath(path);
       };
       
@@ -68,7 +66,6 @@ export const Grid = () => {
             onClick={() => {
                 if(node.isEndNode===false && node.isStartNode === false ){
                     toggleWall(rowIndex, colIndex)
-                    //node.edges = {}
                 }
             }}            
           ></div>
@@ -76,7 +73,6 @@ export const Grid = () => {
       </div>
     ))}
     <button onClick={handleDjikstra}>Djikstra</button>
-    {/*<button onClick={()=>{setShortestPath(Djikstra([...grid],Rows,Cols))}}>Djikstra</button>*/}
   </div>
   )
 }

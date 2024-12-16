@@ -1,4 +1,4 @@
-import { Children, createContext, useState } from "react";
+import {createContext, useState } from "react";
 import Node from "./Node"
 
 export const GridContext = createContext();
