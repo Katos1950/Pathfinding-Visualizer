@@ -37,9 +37,23 @@ export const Grid = () => {
         setGrid(resetGridState);
         const path = Djikstra(resetGridState, Rows, Cols);
         
+        let i = 0;
+        let dummyPath = []; // This will display the path step by step
 
+        // Start interval to display path slowly
+        const interval = setInterval(setShortestPathSlowly, 50);
+
+        function setShortestPathSlowly() {
+          if (i < path.length) {
+            dummyPath.push(path[i]); // Add the next element to dummyPath
+            setShortestPath([...dummyPath]); // Update the displayed path
+            i++; // Move to the next element
+          } else {
+            clearInterval(interval); // Stop the interval when all elements are displayed
+          }
+        }
         
-        setShortestPath(path);
+        //setShortestPath(path);
       };
       
       
