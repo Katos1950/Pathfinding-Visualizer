@@ -1,0 +1,39 @@
+.grid {
+    display: flex;
+    flex-direction: column;
+    margin: 20px auto;
+    width: max-content;
+  }
+  
+  .grid-row {
+    display: flex;
+  }
+  
+  .grid-cell {
+    width: 20px;
+    height: 20px;
+    padding: 2px;
+    border: 1px solid #ddd;
+    background-color: white;
+    cursor: pointer;
+  }
+  
+  .grid-cell.wall {
+    background-color: black;
+  }
+
+  .grid-cell.isStartNode {
+    background-color: red;
+  }
+
+  .grid-cell.isEndNode {
+    background-color: green;
+  }
+
+  .grid-cell.visited {
+    background-color: lightblue;
+  }
+
+  .grid-cell.path {
+    background-color: yellow;
+  }
