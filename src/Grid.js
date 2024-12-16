@@ -1,12 +1,11 @@
-import { useContext, useState } from "react";
+import { useContext} from "react";
 import "./Grid.css";
 import { Djikstra } from "./Djikstra";
-import Node from "./Node";
 import { GridContext } from "./GridContext";
 
 export const Grid = () => {
   
-  const {grid,setGrid,shortestPath,setShortestPath,Rows,Cols} = useContext(GridContext);
+  const {grid,setGrid,shortestPath,setShortestPath,Rows,Cols,explored,setExplored} = useContext(GridContext);
 
     const toggleWall = (rowIndex, colIndex) => {
         const newGrid = grid.map((row, rIndex) => {
@@ -35,7 +34,8 @@ export const Grid = () => {
       const handleDjikstra = () => {
         const resetGridState = resetGrid(grid);
         setGrid(resetGridState);
-        const path = Djikstra(resetGridState, Rows, Cols);
+        setExplored([]);
+        const path = Djikstra(resetGridState, Rows, Cols,setExplored);
         
         let i = 0;
         let dummyPath = []; // This will display the path step by step
@@ -64,7 +64,7 @@ export const Grid = () => {
         {row.map((node, colIndex) => (
           <div
             key={colIndex}
-            className={`grid-cell ${node.isStartNode ? "isStartNode":node.isEndNode ? "isEndNode" :node.isWall ? "wall" : shortestPath.includes(`${node.rowIndex} ${node.colIndex}`)? "path" : node.shortestTime !== Number.MAX_SAFE_INTEGER? "visited":""}`}
+            className={`grid-cell ${node.isStartNode ? "isStartNode":node.isEndNode ? "isEndNode" :node.isWall ? "wall" : shortestPath.includes(`${node.rowIndex} ${node.colIndex}`)? "path" : explored.includes(`${node.rowIndex} ${node.colIndex}`) ? "visited":""}`}
             onClick={() => {
                 if(node.isEndNode===false && node.isStartNode === false ){
                     toggleWall(rowIndex, colIndex)

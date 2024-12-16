@@ -1,4 +1,7 @@
-export const Djikstra = (grid,rows,cols) => {
+import { useContext } from "react";
+import { GridContext } from "./GridContext";
+
+export const Djikstra = (grid,rows,cols,setExplored) => {
 
     let explored = [];
     let unexplored = [];
@@ -43,21 +46,14 @@ export const Djikstra = (grid,rows,cols) => {
             }  
         }
     }
-    //console.log(shortestTime);
-    //console.log(grid[0][0].edges);
-    //console.log(endNode);
+    
     let currentNode = startNode;
+    
     while(currentNode !== endNode){
-        //console.log(`Current Node ${currentNode.rowIndex} ${currentNode.colIndex}`);
         explored.push(`${currentNode.rowIndex} ${currentNode.colIndex}`);
+        setExplored([...explored]);
         unexplored = unexplored.filter((nodeId) => nodeId !== `${currentNode.rowIndex} ${currentNode.colIndex}`);
-        //unexplored.filter((node) => node !== currentNode);
         const edges = currentNode.edges;
-        //console.log("Explored "+ explored)
-        //console.log("Unexplored "+ unexplored)
-        //console.log(edges);
-        //console.log("Current Node "+ currentNode.rowIndex + " "+ currentNode.colIndex);
-        //console.log("Current node Shortest time "+currentNode.shortestTime);
         Object.entries(edges).forEach(([key, value]) => {
             const [row, col] = key.split(" ").map(Number);
         
@@ -72,9 +68,10 @@ export const Djikstra = (grid,rows,cols) => {
             }
         });
 
+        
+
         let nextNode = null;
         let minTime = Number.MAX_SAFE_INTEGER
-        //console.log(unexplored);
         unexplored.forEach(node => {
             const [row, col] = node.split(" ").map(Number);
 

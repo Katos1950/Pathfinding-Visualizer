@@ -1,4 +1,4 @@
-import { Children, createContext, useState } from "react";
+import {createContext, useState } from "react";
 import Node from "./Node"
 
 export const GridContext = createContext();
@@ -38,10 +38,10 @@ export const GridProvider = ({children}) => {
 
     const [grid,setGrid] = useState(CreateInitialGrid(Rows,Cols));
     const [shortestPath,setShortestPath] = useState([]);  
-
+    const [explored,setExplored] = useState([]);
     
     return(
-        <GridContext.Provider value={{grid,setGrid,shortestPath,setShortestPath,Rows,Cols}}>
+        <GridContext.Provider value={{grid,setGrid,shortestPath,setShortestPath,Rows,Cols,explored,setExplored}}>
             {children}
         </GridContext.Provider>
     );
