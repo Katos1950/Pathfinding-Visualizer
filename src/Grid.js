@@ -7,6 +7,8 @@ export const Grid = () => {
   
   const {grid,setGrid,shortestPath,setShortestPath,Rows,Cols} = useContext(GridContext);
   const [visited,setVisited] = useState([]);
+  const [isMouseDown, setIsMouseDown] = useState(false);
+
     const toggleWall = (rowIndex, colIndex) => {
         const newGrid = grid.map((row, rIndex) => {
           return row.map((node, cIndex) => {
@@ -32,6 +34,7 @@ export const Grid = () => {
       };
       
       const handleDjikstra = () => {
+        setShortestPath([])
         const resetGridState = resetGrid(grid);
         setGrid(resetGridState);
         //const path = Djikstra(resetGridState, Rows, Cols);
@@ -87,11 +90,24 @@ export const Grid = () => {
             key={colIndex}
             //className={`grid-cell ${node.isStartNode ? "isStartNode":node.isEndNode ? "isEndNode" :node.isWall ? "wall" : shortestPath.includes(`${node.rowIndex} ${node.colIndex}`)? "path" : node.shortestTime !== Number.MAX_SAFE_INTEGER? "visited":""}`}
             className={`grid-cell ${node.isStartNode ? "isStartNode":node.isEndNode ? "isEndNode" :node.isWall ? "wall" : shortestPath.includes(`${node.rowIndex} ${node.colIndex}`)? "path" : visited.includes(`${node.rowIndex} ${node.colIndex}`) ? "visited":""}`}
-            onClick={() => {
-                if(node.isEndNode===false && node.isStartNode === false ){
+            onClick={()=>{
+              if(node.isEndNode===false && node.isStartNode === false){
+                toggleWall(rowIndex, colIndex)
+              }
+            }}
+            onMouseDown={()=>{
+                setIsMouseDown(true)
+                  if(node.isEndNode===false && node.isStartNode === false && isMouseDown){
                     toggleWall(rowIndex, colIndex)
-                }
-            }}            
+                  }
+              } 
+            }
+            onMouseEnter={() => {
+              if(node.isEndNode===false && node.isStartNode === false && isMouseDown){
+                    toggleWall(rowIndex, colIndex)
+              }
+            }}
+            onMouseUp={()=>{setIsMouseDown(false)}}            
           ></div>
         ))}
       </div>
