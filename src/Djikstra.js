@@ -96,6 +96,7 @@ export const Djikstra = (grid,rows,cols) => {
     //console.log(shortestPath.reverse());
 
   return (
-    shortestPath.reverse()
+    //shortestPath.reverse()
+    [shortestPath.reverse(),explored]
   )
 }
