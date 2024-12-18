@@ -98,13 +98,9 @@ export const Grid = () => {
                     toggleWall(rowIndex, colIndex)
                   }
 
-                  else if(node.isStartNode){
+                  else if(node.isStartNode || node.isEndNode){
                     setIsStartNodeMoved(true);
-                    node.isStartNode = false;
-                  }
-                  else if(node.isEndNode){
-                    setIsEndNodeMoved(true);
-                    node.isEndNode = false;
+                    node.isStartNode ? node.isStartNode = false : node.isEndNode = false;;
                   }
               } 
             }
@@ -117,15 +113,10 @@ export const Grid = () => {
 
             onMouseUp={()=>{
               setIsMouseDown(false);
-              if(isStartNodeMoved){
+              if(isStartNodeMoved || isEndNodeMoved){
                 node.isWall = false;
-                node.isStartNode=true;
+                isStartNodeMoved ? node.isStartNode=true : node.isEndNode=true;;
                 setIsStartNodeMoved(false);
-              }
-              else if(isEndNodeMoved){
-                node.isWall = false;
-                node.isEndNode=true;
-                setIsEndNodeMoved(false);
               }
             }}
 
