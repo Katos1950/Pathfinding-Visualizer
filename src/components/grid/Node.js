@@ -1,6 +1,6 @@
 import React from "react";
 
- class Node extends React.Component{
+ export class Node extends React.Component{
   constructor(row, col) {
     super();
     this.isStartNode = false;
@@ -16,6 +16,7 @@ import React from "react";
   // setStartNode() {
   //   this.isStartNode = true;
   //   this.shortestTime = 0;
+  //   this.isWall = false;
   // }
 
   // setEndNode() {
@@ -27,4 +28,4 @@ import React from "react";
   // }
 }
 
-export default Node;
+//export default Node;

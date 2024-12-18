@@ -1,5 +1,5 @@
 import {createContext, useState } from "react";
-import Node from "./Node"
+import {Node} from "./Node"
 
 export const GridContext = createContext();
 

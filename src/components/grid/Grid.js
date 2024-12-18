@@ -1,13 +1,16 @@
 import { useContext, useState } from "react";
 import "./Grid.css";
-import { Djikstra } from "./Djikstra";
+import { Djikstra } from "../pathfinding algorithms";
 import { GridContext } from "./GridContext";
+
 
 export const Grid = () => {
   
   const {grid,setGrid,shortestPath,setShortestPath,Rows,Cols} = useContext(GridContext);
   const [visited,setVisited] = useState([]);
   const [isMouseDown, setIsMouseDown] = useState(false);
+  const [isStartNodeMoved, setIsStartNodeMoved] = useState(false);
+  const [isEndNodeMoved, setIsEndNodeMoved] = useState(false);
 
     const toggleWall = (rowIndex, colIndex) => {
         const newGrid = grid.map((row, rIndex) => {
@@ -80,7 +83,6 @@ export const Grid = () => {
         //setShortestPath(path);
       };
       
-      
   return (
     <div className="grid">
     {grid.map((row, rowIndex) => (
@@ -90,24 +92,54 @@ export const Grid = () => {
             key={colIndex}
             //className={`grid-cell ${node.isStartNode ? "isStartNode":node.isEndNode ? "isEndNode" :node.isWall ? "wall" : shortestPath.includes(`${node.rowIndex} ${node.colIndex}`)? "path" : node.shortestTime !== Number.MAX_SAFE_INTEGER? "visited":""}`}
             className={`grid-cell ${node.isStartNode ? "isStartNode":node.isEndNode ? "isEndNode" :node.isWall ? "wall" : shortestPath.includes(`${node.rowIndex} ${node.colIndex}`)? "path" : visited.includes(`${node.rowIndex} ${node.colIndex}`) ? "visited":""}`}
-            onClick={()=>{
-              if(node.isEndNode===false && node.isStartNode === false){
-                toggleWall(rowIndex, colIndex)
-              }
-            }}
             onMouseDown={()=>{
                 setIsMouseDown(true)
                   if(node.isEndNode===false && node.isStartNode === false && isMouseDown){
                     toggleWall(rowIndex, colIndex)
                   }
+
+                  else if(node.isStartNode){
+                    setIsStartNodeMoved(true);
+                    node.isStartNode = false;
+                  }
+                  else if(node.isEndNode){
+                    setIsEndNodeMoved(true);
+                    node.isEndNode = false;
+                  }
               } 
             }
+
             onMouseEnter={() => {
-              if(node.isEndNode===false && node.isStartNode === false && isMouseDown){
-                    toggleWall(rowIndex, colIndex)
+              if(node.isEndNode===false && node.isStartNode === false && isMouseDown && isStartNodeMoved===false && isEndNodeMoved === false){
+                toggleWall(rowIndex, colIndex)
               }
             }}
-            onMouseUp={()=>{setIsMouseDown(false)}}            
+
+            onMouseUp={()=>{
+              setIsMouseDown(false);
+              if(isStartNodeMoved){
+                node.isWall = false;
+                node.isStartNode=true;
+                setIsStartNodeMoved(false);
+              }
+              else if(isEndNodeMoved){
+                node.isWall = false;
+                node.isEndNode=true;
+                setIsEndNodeMoved(false);
+              }
+            }}
+
+            onClick={()=>{
+              //some times react does not work properly with mouse enter and exit so this is an extra check to prevent errors
+              if(node.isStartNode || node.isEndNode){
+                node.isWall = false;
+              }
+
+              else if(node.isEndNode===false && node.isStartNode === false){
+                toggleWall(rowIndex, colIndex)
+              }
+            }}
+
           ></div>
         ))}
       </div>

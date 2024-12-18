@@ -1,7 +1,7 @@
 import './App.css';
-import { Grid } from './Grid';
-import { GridProvider } from './GridContext';
-import {Header} from './Header';
+import { Grid } from './components/grid';
+import { GridProvider } from './components/grid/GridContext';
+import {Header} from './components';
 import { Routes,Route } from 'react-router-dom';
 
 
