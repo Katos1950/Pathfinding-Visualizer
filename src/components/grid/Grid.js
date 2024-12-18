@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./Grid.css";
 import { Djikstra } from "../pathfinding algorithms";
 import { GridContext } from "./GridContext";
@@ -11,6 +11,12 @@ export const Grid = () => {
   const [isMouseDown, setIsMouseDown] = useState(false);
   const [isStartNodeMoved, setIsStartNodeMoved] = useState(false);
   const [isEndNodeMoved, setIsEndNodeMoved] = useState(false);
+  const [timesRan,setTimesRan] = useState(0);
+
+  useEffect(()=>{
+    if(timesRan>0)
+      handleDjikstra();
+  },[timesRan]);
 
     const toggleWall = (rowIndex, colIndex) => {
         const newGrid = grid.map((row, rIndex) => {
@@ -46,41 +52,47 @@ export const Grid = () => {
         const pathAndExplored = Djikstra(resetGridState, Rows, Cols);
         const path = pathAndExplored[0]
         const explored =pathAndExplored[1]
-        
-        let j = 0;
-        const dummyExplored=[];
-        const exploredInterval = setInterval(setExploredNodesSlowly, 20);
+        if(timesRan === 1){
+          
+          let j = 0;
+          const dummyExplored=[];
+          const exploredInterval = setInterval(setExploredNodesSlowly, 20);
 
-        function setExploredNodesSlowly() {
-          if (j < explored.length) {
-            dummyExplored.push(explored[j]);
-            setVisited([...dummyExplored]);
-            j++; 
-          } else {
-            clearInterval(exploredInterval); // Stop the interval when all elements are displayed
-            displayShortestPath();
-          }
-        }
-
-        //Display shortest path slowly using setInterval
-        function displayShortestPath(){
-          let i = 0;
-          let dummyPath = []; // Adding main path to dummy one by one
-
-          const interval = setInterval(setShortestPathSlowly, 50);
-
-          function setShortestPathSlowly() {
-            if (i < path.length) {
-              dummyPath.push(path[i]);
-              setShortestPath([...dummyPath]); // Update the displayed path
-              i++; 
+          function setExploredNodesSlowly() {
+            if (j < explored.length) {
+              dummyExplored.push(explored[j]);
+              setVisited([...dummyExplored]);
+              j++; 
             } else {
-              clearInterval(interval); // Stop the interval when all elements are displayed
+              clearInterval(exploredInterval); // Stop the interval when all elements are displayed
+              displayShortestPath();
             }
           }
+
+          //Display shortest path slowly using setInterval
+          function displayShortestPath(){
+            let i = 0;
+            let dummyPath = []; // Adding main path to dummy one by one
+
+            const interval = setInterval(setShortestPathSlowly, 50);
+
+            function setShortestPathSlowly() {
+              if (i < path.length) {
+                dummyPath.push(path[i]);
+                setShortestPath([...dummyPath]); // Update the displayed path
+                i++; 
+              } else {
+                clearInterval(interval); // Stop the interval when all elements are displayed
+              }
+            }
+          }
+          //setTimesRan(prevTimesran => prevTimesran+1);
         }
-        
-        //setShortestPath(path);
+        else{
+          setVisited(explored);
+          setShortestPath(path);
+
+        }
       };
       
   return (
@@ -121,11 +133,17 @@ export const Grid = () => {
                 node.isWall = false;
                 node.isStartNode=true;
                 setIsStartNodeMoved(false);
+                if(timesRan>0){
+                    setTimesRan(timesRan+1);
+                }
               }
               else if(isEndNodeMoved){
                 node.isWall = false;
                 node.isEndNode=true;
                 setIsEndNodeMoved(false);
+                if(timesRan>0){
+                  setTimesRan(timesRan+1);
+                }
               }
             }}
 
@@ -145,8 +163,17 @@ export const Grid = () => {
       </div>
     ))}
 
-
-    <button onClick={handleDjikstra}>Djikstra</button>
+    <h1>{timesRan}</h1>
+    <button onClick={()=>{
+      if(timesRan!==1){
+        setTimesRan(1);
+      }
+      else{
+        handleDjikstra();
+      }
+      //handleDjikstra()
+      // setTimesRan(prevTimesran => prevTimesran+1);
+    }}>Djikstra</button>
   </div>
   )
 }
