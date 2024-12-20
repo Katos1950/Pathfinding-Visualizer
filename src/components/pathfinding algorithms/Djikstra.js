@@ -79,6 +79,7 @@ export const Djikstra = (grid,rows,cols) => {
             
             if(nextNode === null){
                 console.log("No path exists to the target node.");
+                currentNode = startNode;
                 return;
             }
             currentNode = nextNode;
