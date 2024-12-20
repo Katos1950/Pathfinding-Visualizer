@@ -1,7 +1,9 @@
 import { useContext, useEffect, useState } from "react";
 import "./Grid.css";
-import { Djikstra } from "../pathfinding algorithms";
+import { Djikstra } from "../pathfinding algorithms/Djikstra";
 import { GridContext } from "./GridContext";
+import { RecursiveDivision } from "../maze algorithms/RecursiveDivision";
+
 
 
 export const Grid = () => {
@@ -52,6 +54,7 @@ export const Grid = () => {
         const pathAndExplored = Djikstra(resetGridState, Rows, Cols);
         const path = pathAndExplored[0]
         const explored =pathAndExplored[1]
+        console.log(explored)
         if(timesRan === 1){
           
           let j = 0;
@@ -174,6 +177,8 @@ export const Grid = () => {
       //handleDjikstra()
       // setTimesRan(prevTimesran => prevTimesran+1);
     }}>Djikstra</button>
+    <button onClick={()=>{
+      }}>Divide</button>
   </div>
   )
 }

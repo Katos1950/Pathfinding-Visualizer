@@ -10,30 +10,50 @@
   }
   
   .grid-cell {
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
     padding: 2px;
     border: 1px solid #ddd;
-    background-color: white;
     cursor: pointer;
+    background-image: url("../../images/grass.png");
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
   }
   
   .grid-cell.wall {
-    background-color: black;
+    background-image: url("../../images/wall.png");
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
   }
 
   .grid-cell.isStartNode {
-    background-color: red;
+    background-image: url("../../images/start.png");
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
   }
 
   .grid-cell.isEndNode {
-    background-color: green;
+    background-image: url("../../images/end.png");
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  .grid-cell.isStopNode {
+    background-color: violet;
   }
 
   .grid-cell.visited {
+    background-image: url("");
     background-color: lightblue;
   }
 
   .grid-cell.path {
-    background-color: yellow;
+    background-image: url("../../images/path.png");
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
   }
