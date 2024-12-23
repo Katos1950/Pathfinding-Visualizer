@@ -1,8 +1,9 @@
-export const Prims = (grid,rows,cols,setGrid) => {
+export const Prims = (grid,rows,cols,setGrid,setShortestPath) => {
     const startNode = grid.flat().find(node => node.isStartNode);
     const endNode = grid.flat().find(node => node.isEndNode);
 
     const assignEdges = (node) => {
+
                 node.isWall = true;
                 const edges = {};
                 const { rowIndex, colIndex } = node;
@@ -33,7 +34,7 @@ export const Prims = (grid,rows,cols,setGrid) => {
             }
             setGrid([...grid]);
 
-            let l=0
+            endNode.isWall = false;
             let frontierCells = {}; 
             let [currRow, currCol] = [startNode.rowIndex,startNode.colIndex];
             do{
@@ -90,7 +91,6 @@ export const Prims = (grid,rows,cols,setGrid) => {
             delete frontierCells[frontierCellKey];
             console.log("After deleting")
             console.log(Object.entries(frontierCells))
-            l++;
             }while(Object.entries(frontierCells).length > 0);
             
 

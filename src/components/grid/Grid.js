@@ -103,6 +103,8 @@ export const Grid = () => {
     const handlePrims = () => {
       // const resetGridState = resetGrid(grid);
       // setGrid(resetGridState);
+      setShortestPath([])
+      setVisited([])
       Prims(grid,Rows,Cols,setGrid)
     } 
 
