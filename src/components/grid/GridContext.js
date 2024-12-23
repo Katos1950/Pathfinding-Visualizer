@@ -33,8 +33,8 @@ export const GridProvider = ({children}) => {
         return(initGrid);
     }
 
-    const Rows = 20;
-    const Cols = 50;
+    const Rows = 21;
+    const Cols = 51;
 
     const [grid,setGrid] = useState(CreateInitialGrid(Rows,Cols,7,5,15,30));
     const [shortestPath,setShortestPath] = useState([]);  

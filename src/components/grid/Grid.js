@@ -3,6 +3,7 @@ import "./Grid.css";
 import { Djikstra } from "../pathfinding algorithms/Djikstra";
 import { GridContext } from "./GridContext";
 import { RecursiveDivision } from "../maze algorithms/RecursiveDivision";
+import { Prims } from "../maze algorithms/Prims";
 
 
 
@@ -98,6 +99,13 @@ export const Grid = () => {
         }
       };
       
+
+    const handlePrims = () => {
+      // const resetGridState = resetGrid(grid);
+      // setGrid(resetGridState);
+      Prims(grid,Rows,Cols,setGrid)
+    } 
+
   return (
     <div className="grid">
     {grid.map((row, rowIndex) => (
@@ -115,8 +123,9 @@ export const Grid = () => {
 
                   else if(node.isStartNode){
                     setIsStartNodeMoved(true);
-                    node.isStartNode = false;
+                    //node.isStartNode = false;
                   }
+                  
                   else if(node.isEndNode){
                     setIsEndNodeMoved(true);
                     node.isEndNode = false;
@@ -128,12 +137,24 @@ export const Grid = () => {
               if(node.isEndNode===false && node.isStartNode === false && isMouseDown && isStartNodeMoved===false && isEndNodeMoved === false){
                 toggleWall(rowIndex, colIndex)
               }
+              if(isStartNodeMoved && isMouseDown){
+                node.isStartNode = true;
+                if(timesRan>0){
+                  setTimesRan(timesRan+1);
+              }
+              }
+            }}
+
+            onMouseLeave={()=>{
+              if(isStartNodeMoved && isMouseDown){
+                node.isStartNode = false;
+              }
             }}
 
             onMouseUp={()=>{
               setIsMouseDown(false);
               if(isStartNodeMoved){
-                node.isWall = false;
+                node.isWall = false;//if you placed the start node on a wall
                 node.isStartNode=true;
                 setIsStartNodeMoved(false);
                 if(timesRan>0){
@@ -178,9 +199,8 @@ export const Grid = () => {
       // setTimesRan(prevTimesran => prevTimesran+1);
     }}>Djikstra</button>
     <button onClick={()=>{
+      handlePrims()
       }}>Divide</button>
   </div>
   )
 }
-
-
