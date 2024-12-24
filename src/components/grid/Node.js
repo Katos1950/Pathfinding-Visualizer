@@ -5,6 +5,7 @@ import React from "react";
     super();
     this.isStartNode = false;
     this.isEndNode = false;
+    this.isStopNode = false;
     this.isWall = false;
     this.rowIndex = row;
     this.colIndex = col;
