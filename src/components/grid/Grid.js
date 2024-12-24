@@ -16,10 +16,14 @@ export const Grid = () => {
   const [isEndNodeMoved, setIsEndNodeMoved] = useState(false);
   const [timesRan,setTimesRan] = useState(0);
 
+
+
   useEffect(()=>{
     if(timesRan>0)
       handleDjikstra();
   },[timesRan]);
+
+  grid[9][45].isStopNode = true;
 
     const toggleWall = (rowIndex, colIndex) => {
         const newGrid = grid.map((row, rIndex) => {
@@ -53,9 +57,16 @@ export const Grid = () => {
 
         //Displaying all the explored nodes slowly
         const pathAndExplored = Djikstra(resetGridState, Rows, Cols);
-        const path = pathAndExplored[0]
-        const explored =pathAndExplored[1]
-        console.log(explored)
+        let path = pathAndExplored[0]
+        let explored =pathAndExplored[1]
+        const path2 = pathAndExplored[2]
+        const explored2 = pathAndExplored[3]
+
+        if(path2 !== null && explored2 !== null){
+          path = [...path,...path2];
+          explored = [...explored,...explored2]
+        }
+        
         if(timesRan === 1){
           
           let j = 0;
@@ -116,7 +127,7 @@ export const Grid = () => {
           <div
             key={colIndex}
             //className={`grid-cell ${node.isStartNode ? "isStartNode":node.isEndNode ? "isEndNode" :node.isWall ? "wall" : shortestPath.includes(`${node.rowIndex} ${node.colIndex}`)? "path" : node.shortestTime !== Number.MAX_SAFE_INTEGER? "visited":""}`}
-            className={`grid-cell ${node.isStartNode ? "isStartNode":node.isEndNode ? "isEndNode" :node.isWall ? "wall" : shortestPath.includes(`${node.rowIndex} ${node.colIndex}`)? "path" : visited.includes(`${node.rowIndex} ${node.colIndex}`) ? "visited":""}`}
+            className={`grid-cell ${node.isStartNode ? "isStartNode":node.isEndNode ? "isEndNode" : node.isStopNode ? "isStopNode" :node.isWall ? "wall" : shortestPath.includes(`${node.rowIndex} ${node.colIndex}`)? "path" : visited.includes(`${node.rowIndex} ${node.colIndex}`) ? "visited":""}`}
             onMouseDown={()=>{
                 setIsMouseDown(true)
                   if(node.isEndNode===false && node.isStartNode === false && isMouseDown){

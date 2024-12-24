@@ -3,8 +3,13 @@ export const Djikstra = (grid,rows,cols) => {
     let explored = [];
     let unexplored = [];
     let shortestTime = {};
-    const startNode = grid.flat().find(node => node.isStartNode);
-    const endNode = grid.flat().find(node => node.isEndNode);
+    let startNode = grid.flat().find(node => node.isStartNode);
+    let endNode = grid.flat().find(node => node.isEndNode);
+    let stopNode = grid.flat().find(node => node.isStopNode);
+    let firstExplored = null;
+    let firstShortestPath = null;
+    let secondExplored = null;
+    let secondShortestPath = null;
 
     const assignEdges = (node) => {
         const edges = {};
@@ -26,20 +31,23 @@ export const Djikstra = (grid,rows,cols) => {
         return edges;
     };
 
-    //Get all the shortest times and assign edges to each node
-    for (let row = 0; row < rows; row++) {
-        for (let col = 0; col < cols; col++) {
-          const node = grid[row][col];
-            if (!node.isWall) {
-                shortestTime[`${row} ${col}`] = node.shortestTime;
-                unexplored.push(`${row} ${col}`);
-                node.edges = assignEdges(node);
-            }  
+    function allotEdges(){
+        //Get all the shortest times and assign edges to each node
+        for (let row = 0; row < rows; row++) {
+            for (let col = 0; col < cols; col++) {
+            const node = grid[row][col];
+                if (!node.isWall) {
+                    shortestTime[`${row} ${col}`] = Number.MAX_SAFE_INTEGER;
+                    //if(node.rowIndex == startNode.rowIndex && node.colIndex === startNode.colIndex){shortestTime[`${row} ${col}`] = 0}
+                    unexplored.push(`${row} ${col}`);
+                    node.edges = assignEdges(node);
+                }  
+            }
         }
     }
+    
 
     //Traverse through the grid from start node
-    let currentNode = startNode;
     function traverse(){
         
         while(currentNode !== endNode){
@@ -85,23 +93,54 @@ export const Djikstra = (grid,rows,cols) => {
             currentNode = nextNode;
         }
     }
-    traverse()
     
+    function determineShortestPath(){
+        let shortestPath = []
+        while(currentNode !== startNode){
+            shortestPath.push(currentNode.prevNode);
+            const [row,col] = currentNode.prevNode.split(" ").map(Number);
+            currentNode = grid[row][col]
+        }
+        return shortestPath
+    }
+    let currentNode = null;
+    if(stopNode){
+        allotEdges();
+        currentNode = startNode;
+        endNode = stopNode
+        traverse()
+        firstShortestPath = determineShortestPath();
+        firstExplored = explored;
+        
+        explored = []
+        unexplored = []
+        shortestTime = {}
+        allotEdges();
+        currentNode = stopNode;
+        startNode = currentNode;
+        endNode = grid.flat().find(node => node.isEndNode);
+        traverse()
+        secondShortestPath = determineShortestPath();
+        secondExplored = explored;
+        //shortestPath = [...secondShortestPath,...firsrShortestPath]
+        //explored = [...firstExplored,...secondExplored];
+    }
+    else{
+        allotEdges();
+        currentNode = startNode;
+        traverse()
+        firstShortestPath = determineShortestPath();
+    }
     //Finding the shortest path using prevNode property of each node
     //Right now current node is the end node, we are traversing from end node to start node
-    let shortestPath = []
-    while(currentNode !== startNode){
-        shortestPath.push(currentNode.prevNode);
-        const [row,col] = currentNode.prevNode.split(" ").map(Number);
-        currentNode = grid[row][col]
-    }
-
+    
     //console.log(grid);
     //console.log("Shortest Path:");
     //console.log(shortestPath.reverse());
 
   return (
     //shortestPath.reverse()
-    [shortestPath.reverse(),explored]
+    [firstShortestPath.reverse(),firstExplored,secondShortestPath.reverse(),secondExplored]
   )
 }
+
