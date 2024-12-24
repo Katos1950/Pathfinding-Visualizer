@@ -14,7 +14,6 @@ export const Grid = () => {
   const [isMouseDown, setIsMouseDown] = useState(false);
   const [isStartNodeMoved, setIsStartNodeMoved] = useState(false);
   const [isEndNodeMoved, setIsEndNodeMoved] = useState(false);
-  const [isStopNodeMoved, setIsStopNodeMoved] = useState(false);
   const [timesRan,setTimesRan] = useState(0);
 
   useEffect(()=>{
@@ -107,16 +106,7 @@ export const Grid = () => {
       setShortestPath([])
       setVisited([])
       Prims(grid,Rows,Cols,setGrid)
-    }
-    
-    const handleStopNode = ()=>{
-      const stopNode = grid.flat().find(node => node.isStopNode);
-      if(stopNode){return}
-      
-      grid[9][20].isStopNode = true
-      grid[9][20].isWall = true
-      setGrid([...grid]);
-    }
+    } 
 
   return (
     <div className="grid">
@@ -126,10 +116,10 @@ export const Grid = () => {
           <div
             key={colIndex}
             //className={`grid-cell ${node.isStartNode ? "isStartNode":node.isEndNode ? "isEndNode" :node.isWall ? "wall" : shortestPath.includes(`${node.rowIndex} ${node.colIndex}`)? "path" : node.shortestTime !== Number.MAX_SAFE_INTEGER? "visited":""}`}
-            className={`grid-cell ${node.isStartNode ? "isStartNode":node.isEndNode ? "isEndNode" : node.isStopNode? "isStopNode" :node.isWall ? "wall" : shortestPath.includes(`${node.rowIndex} ${node.colIndex}`)? "path" : visited.includes(`${node.rowIndex} ${node.colIndex}`) ? "visited":""}`}
+            className={`grid-cell ${node.isStartNode ? "isStartNode":node.isEndNode ? "isEndNode" :node.isWall ? "wall" : shortestPath.includes(`${node.rowIndex} ${node.colIndex}`)? "path" : visited.includes(`${node.rowIndex} ${node.colIndex}`) ? "visited":""}`}
             onMouseDown={()=>{
                 setIsMouseDown(true)
-                  if(node.isEndNode===false && node.isStartNode === false && node.isStopNode == false && isMouseDown){
+                  if(node.isEndNode===false && node.isStartNode === false && isMouseDown){
                     toggleWall(rowIndex, colIndex)
                   }
 
@@ -142,16 +132,11 @@ export const Grid = () => {
                     setIsEndNodeMoved(true);
                     node.isEndNode = false;
                   }
-
-                  else if(node.isStopNode){
-                    setIsStopNodeMoved(true);
-                    node.isStopNode = false;
-                  }
               } 
             }
 
             onMouseEnter={() => {
-              if(node.isEndNode===false && node.isStartNode === false && node.isStopNode === false && isMouseDown && isStartNodeMoved===false && isEndNodeMoved === false && node.isStopNodeMoved == false){
+              if(node.isEndNode===false && node.isStartNode === false && isMouseDown && isStartNodeMoved===false && isEndNodeMoved === false){
                 toggleWall(rowIndex, colIndex)
               }
               if(isStartNodeMoved && isMouseDown){
@@ -186,23 +171,15 @@ export const Grid = () => {
                   setTimesRan(timesRan+1);
                 }
               }
-              else if(isStopNodeMoved){
-                node.isWall = false;
-                node.isStopNode=true;
-                setIsStopNodeMoved(false);
-                if(timesRan>0){
-                  setTimesRan(timesRan+1);
-                }
-              }
             }}
 
             onClick={()=>{
               //some times react does not work properly with mouse enter and exit so this is an extra check to prevent errors
-              if(node.isStartNode || node.isEndNode || node.isStopNode){
+              if(node.isStartNode || node.isEndNode){
                 node.isWall = false;
               }
 
-              else if(node.isEndNode===false && node.isStartNode === false && node.isStopNode === false){
+              else if(node.isEndNode===false && node.isStartNode === false){
                 toggleWall(rowIndex, colIndex)
               }
             }}
@@ -226,8 +203,6 @@ export const Grid = () => {
     <button onClick={()=>{
       handlePrims()
       }}>Divide</button>
-
-      <button onClick={handleStopNode}>Add a stop</button>
   </div>
   )
 }

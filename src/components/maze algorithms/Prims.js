@@ -1,7 +1,6 @@
 export const Prims = (grid,rows,cols,setGrid,setShortestPath) => {
     const startNode = grid.flat().find(node => node.isStartNode);
     const endNode = grid.flat().find(node => node.isEndNode);
-    const stopNode = grid.flat().find(node => node.isStopNode);
 
     const assignEdges = (node) => {
 
@@ -27,7 +26,7 @@ export const Prims = (grid,rows,cols,setGrid,setShortestPath) => {
         
             for(let i=0;i<rows;i++){
                 for(let j=0;j<cols;j++){
-                    if(grid[i][j] !== startNode || grid[i][j] !== endNode || grid[i][j] !== stopNode)
+                    if(grid[i][j] !== startNode || grid[i][j] !== endNode)
                         grid[i][j].isWall = true;
                     
                     grid[i][j].edges = assignEdges(grid[i][j]);
@@ -36,7 +35,6 @@ export const Prims = (grid,rows,cols,setGrid,setShortestPath) => {
             setGrid([...grid]);
 
             endNode.isWall = false;
-            if(stopNode){stopNode.isWall = false;}
             let frontierCells = {}; 
             let [currRow, currCol] = [startNode.rowIndex,startNode.colIndex];
             do{
@@ -75,8 +73,11 @@ export const Prims = (grid,rows,cols,setGrid,setShortestPath) => {
             })
 
             const arrayOfEntries = Object.entries(frontierCells)
+            console.log("Frontier cell ")
+            console.log(arrayOfEntries);
             const randomElementIndex = Math.floor(Math.random() * arrayOfEntries.length);
             const randomElemenent = arrayOfEntries[randomElementIndex]
+            console.log("random element to remove " + randomElemenent);
             const frontierCellKey = randomElemenent[0]
             const [frontierCellRow, frontierCellCol] = randomElemenent[0].split(" ")
             const [connectingRow, connectingCol] = randomElemenent[1].split(" ")
@@ -88,6 +89,8 @@ export const Prims = (grid,rows,cols,setGrid,setShortestPath) => {
             currCol = frontierCellCol;
 
             delete frontierCells[frontierCellKey];
+            console.log("After deleting")
+            console.log(Object.entries(frontierCells))
             }while(Object.entries(frontierCells).length > 0);
             
 
