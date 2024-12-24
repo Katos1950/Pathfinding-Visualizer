@@ -50,6 +50,10 @@
   .grid-cell.visited {
     background-image: url("");
     background-color: lightblue;
+
+  } .grid-cell.visited2 {
+    background-image: url("");
+    background-color: lightcoral;
   }
 
   .grid-cell.path {

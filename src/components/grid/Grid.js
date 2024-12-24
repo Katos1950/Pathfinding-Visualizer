@@ -11,6 +11,7 @@ export const Grid = () => {
   
   const {grid,setGrid,shortestPath,setShortestPath,Rows,Cols} = useContext(GridContext);
   const [visited,setVisited] = useState([]);
+  const [visited2,setVisited2] = useState([]);
   const [isMouseDown, setIsMouseDown] = useState(false);
   const [isStartNodeMoved, setIsStartNodeMoved] = useState(false);
   const [isEndNodeMoved, setIsEndNodeMoved] = useState(false);
@@ -64,13 +65,14 @@ export const Grid = () => {
 
         if(path2 !== null && explored2 !== null){
           path = [...path,...path2];
-          explored = [...explored,...explored2]
+          //explored = [...explored,...explored2]
         }
-        
+
         if(timesRan === 1){
           
           let j = 0;
           const dummyExplored=[];
+          const dummyExplored2=[];
           const exploredInterval = setInterval(setExploredNodesSlowly, 20);
 
           function setExploredNodesSlowly() {
@@ -78,7 +80,13 @@ export const Grid = () => {
               dummyExplored.push(explored[j]);
               setVisited([...dummyExplored]);
               j++; 
-            } else {
+            }
+            else if(j < (explored.length+explored2.length)){
+              dummyExplored2.push(explored2[j-explored.length]);
+              setVisited2([...dummyExplored2]);
+              j++;
+            } 
+            else {
               clearInterval(exploredInterval); // Stop the interval when all elements are displayed
               displayShortestPath();
             }
@@ -127,7 +135,7 @@ export const Grid = () => {
           <div
             key={colIndex}
             //className={`grid-cell ${node.isStartNode ? "isStartNode":node.isEndNode ? "isEndNode" :node.isWall ? "wall" : shortestPath.includes(`${node.rowIndex} ${node.colIndex}`)? "path" : node.shortestTime !== Number.MAX_SAFE_INTEGER? "visited":""}`}
-            className={`grid-cell ${node.isStartNode ? "isStartNode":node.isEndNode ? "isEndNode" : node.isStopNode ? "isStopNode" :node.isWall ? "wall" : shortestPath.includes(`${node.rowIndex} ${node.colIndex}`)? "path" : visited.includes(`${node.rowIndex} ${node.colIndex}`) ? "visited":""}`}
+            className={`grid-cell ${node.isStartNode ? "isStartNode":node.isEndNode ? "isEndNode" : node.isStopNode ? "isStopNode" :node.isWall ? "wall" : shortestPath.includes(`${node.rowIndex} ${node.colIndex}`)? "path" : visited2.includes(`${node.rowIndex} ${node.colIndex}`) ? "visited2" : visited.includes(`${node.rowIndex} ${node.colIndex}`) ? "visited": ""}`}
             onMouseDown={()=>{
                 setIsMouseDown(true)
                   if(node.isEndNode===false && node.isStartNode === false && isMouseDown){
