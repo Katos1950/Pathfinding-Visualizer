@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { Link } from 'react-router';
 import { AppContext } from './AppContext';
 export const Header = () => {
-  const {setTriggerAlgorithm,visualizeButtonText,setVisualizeButtonText, setTriggerMaze, addStop, setAddStop,speed,setSpeed} = useContext(AppContext);
+  const {setTriggerAlgorithm,visualizeButtonText,setVisualizeButtonText, setTriggerMaze, addStop, setAddStop,speed,setSpeed,clearBoard,setClearBoard} = useContext(AppContext);
 
   const [isAlgorithmOpen, setAlgorithmOpen] = useState(false);
   const [isMazesOpen, setMazesOpen] = useState(false);
@@ -99,7 +99,9 @@ export const Header = () => {
             </div>
 
             <div>
-              <button className='hover:bg-blue-500 px-4 py-2 rounded'>Clear Board</button>
+              <button className='hover:bg-blue-500 px-4 py-2 rounded' onClick={()=>{               
+                setClearBoard(!clearBoard);
+              }}>Clear Board</button>
             </div>
 
             <div className="relative">

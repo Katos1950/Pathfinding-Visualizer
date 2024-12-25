@@ -3,10 +3,11 @@ import React, { createContext, useState } from "react";
 export const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
-  const [triggerAlgorithm, setTriggerAlgorithm] = useState("");
   const [visualizeButtonText,setVisualizeButtonText] = useState("Algorithm")
+  const [triggerAlgorithm, setTriggerAlgorithm] = useState("");
   const [triggerMaze,setTriggerMaze] = useState("")
   const [addStop,setAddStop] = useState("Add")
+  const [clearBoard,setClearBoard] = useState(false);
   const [speed,setSpeed] = useState("Fast")
 
   return (
@@ -15,7 +16,8 @@ export const AppProvider = ({ children }) => {
         visualizeButtonText, setVisualizeButtonText,
         triggerMaze,setTriggerMaze,
         addStop, setAddStop,
-        speed, setSpeed }}>
+        speed, setSpeed,
+        clearBoard, setClearBoard }}>
       {children}
     </AppContext.Provider>
   );

@@ -10,7 +10,7 @@ import { AppContext } from "../AppContext";
 
 export const Grid = () => {
   
-  const {grid,setGrid,shortestPath,setShortestPath,Rows,Cols} = useContext(GridContext);
+  const {grid,setGrid,shortestPath,setShortestPath,Rows,Cols,initStartNodeRow,initStartNodeCol,initEndNodeRow,initEndNodeCol} = useContext(GridContext);
   const [visited,setVisited] = useState([]);
   const [visited2,setVisited2] = useState([]);
   const [isMouseDown, setIsMouseDown] = useState(false);
@@ -19,7 +19,7 @@ export const Grid = () => {
   const [isStopNodeMoved, setIsStopNodeMoved] = useState(false);
   const [timesRan,setTimesRan] = useState(0);
 
-  const { triggerAlgorithm, setTriggerAlgorithm ,triggerMaze, setTriggerMaze, addStop, setAddStop, speed, setSpeed} = useContext(AppContext);
+  const { triggerAlgorithm, setTriggerAlgorithm ,triggerMaze, setTriggerMaze, addStop, setAddStop, speed, setSpeed, clearBoard,setClearBoard} = useContext(AppContext);
 
   useEffect(() => {
     if (triggerAlgorithm === "Djikstra") {
@@ -58,6 +58,30 @@ export const Grid = () => {
     }
   },[addStop])
 
+  const clearTheBoard = (oldGrid) => {
+    return oldGrid.map(row =>
+        row.map(node => ({
+            ...node,
+            isWall : false,
+            isStopNode : false,
+            shortestTime: node.isStartNode ? 0 : Number.MAX_SAFE_INTEGER,
+            prevNode: null,
+            edges: {}
+        }))
+    );
+  };
+
+  useEffect(()=>{
+    if(clearBoard === true){
+      setGrid(clearTheBoard(grid));
+      setShortestPath([]);
+      setVisited([]);
+      setVisited2([]);
+      setTimesRan(0);
+      setClearBoard(false);
+      setAddStop("Add");//To dispay Add stop in the header
+    }
+  },[clearBoard]);
 
   useEffect(()=>{
     if(timesRan>0)
@@ -207,7 +231,7 @@ export const Grid = () => {
             className={`grid-cell ${node.isStartNode ? "isStartNode":node.isEndNode ? "isEndNode" : node.isStopNode ? "isStopNode" :node.isWall ? "wall" : shortestPath.includes(`${node.rowIndex} ${node.colIndex}`)? "path" : visited2.includes(`${node.rowIndex} ${node.colIndex}`) ? "visited2" : visited.includes(`${node.rowIndex} ${node.colIndex}`) ? "visited": ""}`}
             onMouseDown={()=>{
                 setIsMouseDown(true)
-                  if(node.isEndNode===false && node.isStartNode === false && node.isStopNode == false && isMouseDown){
+                  if(node.isEndNode===false && node.isStartNode === false && node.isStopNode === false && isMouseDown){
                     toggleWall(rowIndex, colIndex)
                   }
 
@@ -229,7 +253,7 @@ export const Grid = () => {
             }
 
             onMouseEnter={() => {
-              if(node.isEndNode===false && node.isStartNode === false && node.isStopNode == false && isMouseDown && isStartNodeMoved===false && isEndNodeMoved === false && isStopNodeMoved == false){
+              if(node.isEndNode===false && node.isStartNode === false && node.isStopNode === false && isMouseDown && isStartNodeMoved===false && isEndNodeMoved === false && isStopNodeMoved ===false){
                 toggleWall(rowIndex, colIndex)
               }
               if(isStartNodeMoved && isMouseDown){
@@ -280,7 +304,7 @@ export const Grid = () => {
                 node.isWall = false;
               }
 
-              else if(node.isEndNode===false && node.isStartNode === false && node.isStopNode == false){
+              else if(node.isEndNode===false && node.isStartNode === false && node.isStopNode === false){
                 toggleWall(rowIndex, colIndex)
               }
             }}

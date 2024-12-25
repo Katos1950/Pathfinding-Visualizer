@@ -35,13 +35,16 @@ export const GridProvider = ({children}) => {
 
     const Rows = 21;
     const Cols = 51;
-
-    const [grid,setGrid] = useState(CreateInitialGrid(Rows,Cols,7,5,15,30));
+    const initStartNodeRow = 7;
+    const initStartNodeCol = 5;
+    const initEndNodeRow = 15;
+    const initEndNodeCol = 30;
+    const [grid,setGrid] = useState(CreateInitialGrid(Rows,Cols,initStartNodeRow,initStartNodeCol,initEndNodeRow,initEndNodeCol));
     const [shortestPath,setShortestPath] = useState([]);  
 
     
     return(
-        <GridContext.Provider value={{grid,setGrid,shortestPath,setShortestPath,Rows,Cols}}>
+        <GridContext.Provider value={{grid,setGrid,shortestPath,setShortestPath,Rows,Cols,initStartNodeRow,initStartNodeCol,initEndNodeRow,initEndNodeCol}}>
             {children}
         </GridContext.Provider>
     );
