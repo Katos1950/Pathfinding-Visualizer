@@ -124,6 +124,7 @@ export const Grid = () => {
       // setGrid(resetGridState);
       setShortestPath([])
       setVisited([])
+      setVisited2([])
       Prims(grid,Rows,Cols,setGrid)
     } 
 
