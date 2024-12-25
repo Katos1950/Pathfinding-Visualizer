@@ -43,8 +43,7 @@
   }
 
   .grid-cell.isStopNode {
-    background-image: url("");
-    background-color: violet;
+    background-image: url("../../images/stop.png");
   }
 
   .grid-cell.visited {

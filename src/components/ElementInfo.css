@@ -1,0 +1,34 @@
+.info-bar{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 10px;
+    background-color: white;
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    margin: 5px;
+    width: 100px; /* Adjust for responsiveness */
+    text-align: center;
+    transition: transform 0.2s ease;
+  }
+  
+  .info-item:hover {
+    transform: scale(1.1); /* Add hover effect for interactivity */
+  }
+  
+  .info-image {
+    width: 50px; /* Adjust size as needed */
+    height: 50px;
+    margin-bottom: 5px;
+    /*border-radius: 50%; /* Optional: makes images round */
+  }
+  
+  .info-text {
+    font-size: 14px;
+    color: #333;
+  }
