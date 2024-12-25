@@ -34,6 +34,29 @@ export const Grid = () => {
     }
   },[triggerMaze]);
 
+  useEffect(()=>{
+    if(addStop === "Add"){
+      const stopNode = grid.flat().find(node=>node.isStopNode)
+      if(stopNode){
+        stopNode.isStopNode = false;
+        setGrid([...grid]);
+      }
+    }
+    else{
+      let canSetStop = grid.flat().find(node=> node.isStopNode);
+      while(!canSetStop){
+
+        const randomRow = Math.floor(Math.random() * Rows);
+        const randomCol = Math.floor(Math.random() * Rows);
+        if(!grid[randomRow][randomCol].isStartNode || !grid[randomRow][randomCol].isEndNode){
+          canSetStop = true;
+          grid[randomRow][randomCol].isStopNode = true;
+          grid[randomRow][randomCol].isWall = false;
+          setGrid([...grid])
+        }
+      }
+    }
+  },[addStop])
 
 
   useEffect(()=>{

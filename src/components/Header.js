@@ -78,6 +78,7 @@ export const Header = () => {
                 <div className="absolute bg-white text-black mt-2 rounded shadow-lg py-2 w-40">
                   <button onClick = {()=>{
                     setTriggerMaze("Prims")
+                    setAddStop("Add");
                     toggleDropdown('mazes')
                   }}
                   className="block px-4 py-2 hover:bg-gray-100">Prims Algorithm</button>
