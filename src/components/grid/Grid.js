@@ -15,6 +15,7 @@ export const Grid = () => {
   const [isMouseDown, setIsMouseDown] = useState(false);
   const [isStartNodeMoved, setIsStartNodeMoved] = useState(false);
   const [isEndNodeMoved, setIsEndNodeMoved] = useState(false);
+  const [isStopNodeMoved, setIsStopNodeMoved] = useState(false);
   const [timesRan,setTimesRan] = useState(0);
 
 
@@ -24,7 +25,7 @@ export const Grid = () => {
       handleDjikstra();
   },[timesRan]);
 
-  grid[9][45].isStopNode = true;
+  //grid[9][45].isStopNode = true;
 
     const toggleWall = (rowIndex, colIndex) => {
         const newGrid = grid.map((row, rIndex) => {
@@ -64,12 +65,12 @@ export const Grid = () => {
         const explored2 = pathAndExplored[3]
 
         if(path2 !== null && explored2 !== null){
-          path = [...path,...path2];
+          path = [...path,...path2];console.log(path)
           //explored = [...explored,...explored2]
         }
-
         if(timesRan === 1){
-          
+          setVisited([])
+          setVisited2([])
           let j = 0;
           const dummyExplored=[];
           const dummyExplored2=[];
@@ -81,11 +82,12 @@ export const Grid = () => {
               setVisited([...dummyExplored]);
               j++; 
             }
-            else if(j < (explored.length+explored2.length)){
-              dummyExplored2.push(explored2[j-explored.length]);
-              setVisited2([...dummyExplored2]);
-              j++;
-            } 
+            else if(explored2 !== null && j < (explored.length+explored2.length)){
+                dummyExplored2.push(explored2[j-explored.length]);
+                setVisited2([...dummyExplored2]);
+                j++;
+            }
+             
             else {
               clearInterval(exploredInterval); // Stop the interval when all elements are displayed
               displayShortestPath();
@@ -113,6 +115,8 @@ export const Grid = () => {
         }
         else{
           setVisited(explored);
+          if(explored2 !== null)
+            setVisited2(explored2);
           setShortestPath(path);
 
         }
@@ -125,7 +129,12 @@ export const Grid = () => {
       setShortestPath([])
       setVisited([])
       setVisited2([])
+      let stopNode = grid.flat().find(node => node.isStopNode);
+      if(stopNode){
+        stopNode.isStopNode = false;
+      }
       Prims(grid,Rows,Cols,setGrid)
+      setTimesRan(0);
     } 
 
   return (
@@ -139,7 +148,7 @@ export const Grid = () => {
             className={`grid-cell ${node.isStartNode ? "isStartNode":node.isEndNode ? "isEndNode" : node.isStopNode ? "isStopNode" :node.isWall ? "wall" : shortestPath.includes(`${node.rowIndex} ${node.colIndex}`)? "path" : visited2.includes(`${node.rowIndex} ${node.colIndex}`) ? "visited2" : visited.includes(`${node.rowIndex} ${node.colIndex}`) ? "visited": ""}`}
             onMouseDown={()=>{
                 setIsMouseDown(true)
-                  if(node.isEndNode===false && node.isStartNode === false && isMouseDown){
+                  if(node.isEndNode===false && node.isStartNode === false && node.isStopNode == false && isMouseDown){
                     toggleWall(rowIndex, colIndex)
                   }
 
@@ -152,11 +161,16 @@ export const Grid = () => {
                     setIsEndNodeMoved(true);
                     node.isEndNode = false;
                   }
+
+                  else if(node.isStopNode){
+                    setIsStopNodeMoved(true);
+                    node.isStopNode = false;
+                  }
               } 
             }
 
             onMouseEnter={() => {
-              if(node.isEndNode===false && node.isStartNode === false && isMouseDown && isStartNodeMoved===false && isEndNodeMoved === false){
+              if(node.isEndNode===false && node.isStartNode === false && node.isStopNode == false && isMouseDown && isStartNodeMoved===false && isEndNodeMoved === false && isStopNodeMoved == false){
                 toggleWall(rowIndex, colIndex)
               }
               if(isStartNodeMoved && isMouseDown){
@@ -191,15 +205,23 @@ export const Grid = () => {
                   setTimesRan(timesRan+1);
                 }
               }
+              else if(isStopNodeMoved){
+                node.isWall = false;
+                node.isStopNode=true;
+                setIsStopNodeMoved(false);
+                if(timesRan>0){
+                  setTimesRan(timesRan+1);
+                }
+              }
             }}
 
             onClick={()=>{
               //some times react does not work properly with mouse enter and exit so this is an extra check to prevent errors
-              if(node.isStartNode || node.isEndNode){
+              if(node.isStartNode || node.isEndNode || node.isStopNode){
                 node.isWall = false;
               }
 
-              else if(node.isEndNode===false && node.isStartNode === false){
+              else if(node.isEndNode===false && node.isStartNode === false && node.isStopNode == false){
                 toggleWall(rowIndex, colIndex)
               }
             }}
@@ -223,6 +245,24 @@ export const Grid = () => {
     <button onClick={()=>{
       handlePrims()
       }}>Divide</button>
+
+      <button onClick={()=>{
+        if(!grid.flat().find(node => node.isStopNode)){
+          let canSetStop = false;
+          while(!canSetStop){
+
+            const randomRow = Math.floor(Math.random() * Rows);
+            const randomCol = Math.floor(Math.random() * Rows);
+            if(!grid[randomRow][randomCol].isStartNode || !grid[randomRow][randomCol].isEndNode){
+              canSetStop = true;
+              grid[randomRow][randomCol].isStopNode = true;
+              grid[randomRow][randomCol].isWall = false;
+              setGrid([...grid])
+            }
+          }
+        }
+        
+      }}>Add a Stop</button>
   </div>
   )
 }

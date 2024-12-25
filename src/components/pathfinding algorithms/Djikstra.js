@@ -109,7 +109,7 @@ export const Djikstra = (grid,rows,cols) => {
         currentNode = startNode;
         endNode = stopNode
         traverse()
-        firstShortestPath = determineShortestPath();
+        firstShortestPath = determineShortestPath().reverse();
         firstExplored = explored;
         
         explored = []
@@ -120,7 +120,7 @@ export const Djikstra = (grid,rows,cols) => {
         startNode = currentNode;
         endNode = grid.flat().find(node => node.isEndNode);
         traverse()
-        secondShortestPath = determineShortestPath();
+        secondShortestPath = determineShortestPath().reverse();
         secondExplored = explored;
         //shortestPath = [...secondShortestPath,...firsrShortestPath]
         //explored = [...firstExplored,...secondExplored];
@@ -129,7 +129,8 @@ export const Djikstra = (grid,rows,cols) => {
         allotEdges();
         currentNode = startNode;
         traverse()
-        firstShortestPath = determineShortestPath();
+        firstExplored = explored;
+        firstShortestPath = determineShortestPath().reverse();
     }
     //Finding the shortest path using prevNode property of each node
     //Right now current node is the end node, we are traversing from end node to start node
@@ -140,7 +141,7 @@ export const Djikstra = (grid,rows,cols) => {
 
   return (
     //shortestPath.reverse()
-    [firstShortestPath.reverse(),firstExplored,secondShortestPath.reverse(),secondExplored]
+    [firstShortestPath,firstExplored,secondShortestPath,secondExplored]
   )
 }
 
