@@ -4,6 +4,7 @@ import { Djikstra } from "../pathfinding algorithms/Djikstra";
 import { GridContext } from "./GridContext";
 import { RecursiveDivision } from "../maze algorithms/RecursiveDivision";
 import { Prims } from "../maze algorithms/Prims";
+import { AppContext } from "../AppContext";
 
 
 
@@ -17,6 +18,21 @@ export const Grid = () => {
   const [isEndNodeMoved, setIsEndNodeMoved] = useState(false);
   const [isStopNodeMoved, setIsStopNodeMoved] = useState(false);
   const [timesRan,setTimesRan] = useState(0);
+
+  const { triggerAlgorithm, setTriggerAlgorithm ,triggerMaze, setTriggerMaze, addStop, setAddStop, speed, setSpeed} = useContext(AppContext);
+
+  useEffect(() => {
+    if (triggerAlgorithm === "Djikstra") {
+      //setTriggerAlgorithm(""); // Reset after execution
+    }
+  }, [triggerAlgorithm]);
+
+  useEffect(()=>{
+    if(triggerMaze === "Prims"){
+      handlePrims();
+      setTriggerMaze("")
+    }
+  },[triggerMaze]);
 
 
 
@@ -64,6 +80,26 @@ export const Grid = () => {
         const path2 = pathAndExplored[2]
         const explored2 = pathAndExplored[3]
 
+        let visualizeExploredSpeed = 0;
+        let visualizePathSpeed = 0;
+        switch(speed){
+          case "Fast":
+            visualizeExploredSpeed = 5;
+            visualizePathSpeed = 20;
+            break;
+          case "Average":
+            visualizeExploredSpeed = 20;
+            visualizePathSpeed = 50;
+            break;
+          case "Slow":
+            visualizeExploredSpeed = 50;
+            visualizePathSpeed = 90;
+            break;
+          default:
+            visualizeExploredSpeed = 5;
+            visualizePathSpeed = 20;
+        }
+
         if(path2 !== null && explored2 !== null){
           path = [...path,...path2];console.log(path)
           //explored = [...explored,...explored2]
@@ -74,7 +110,7 @@ export const Grid = () => {
           let j = 0;
           const dummyExplored=[];
           const dummyExplored2=[];
-          const exploredInterval = setInterval(setExploredNodesSlowly, 20);
+          const exploredInterval = setInterval(setExploredNodesSlowly, visualizeExploredSpeed);
 
           function setExploredNodesSlowly() {
             if (j < explored.length) {
@@ -99,7 +135,7 @@ export const Grid = () => {
             let i = 0;
             let dummyPath = []; // Adding main path to dummy one by one
 
-            const interval = setInterval(setShortestPathSlowly, 50);
+            const interval = setInterval(setShortestPathSlowly, visualizePathSpeed);
 
             function setShortestPathSlowly() {
               if (i < path.length) {
