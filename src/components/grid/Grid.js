@@ -23,7 +23,15 @@ export const Grid = () => {
 
   useEffect(() => {
     if (triggerAlgorithm === "Djikstra") {
+      console.log(triggerAlgorithm)
       //setTriggerAlgorithm(""); // Reset after execution
+      if(timesRan!==1){
+        setTimesRan(1);
+      }
+      else{
+        handleDjikstra();
+      }
+      setTriggerAlgorithm("Djikstr")//Resetting the string
     }
   }, [triggerAlgorithm]);
 
@@ -322,14 +330,13 @@ export const Grid = () => {
       else{
         handleDjikstra();
       }
-      //handleDjikstra()
-      // setTimesRan(prevTimesran => prevTimesran+1);
     }}>Djikstra</button>
-    <button onClick={()=>{
+    
+    {/* <button onClick={()=>{
       handlePrims()
-      }}>Divide</button>
+      }}>Divide</button> */}
 
-      <button onClick={()=>{
+      {/* <button onClick={()=>{
         if(!grid.flat().find(node => node.isStopNode)){
           let canSetStop = false;
           while(!canSetStop){
@@ -345,7 +352,7 @@ export const Grid = () => {
           }
         }
         
-      }}>Add a Stop</button>
+      }}>Add a Stop</button> */}
   </div>
   )
 }

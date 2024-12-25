@@ -40,7 +40,7 @@ export const Header = () => {
                   //do something
                 }
                 else{
-                  setTriggerAlgorithm({visualizeButtonText})
+                  setTriggerAlgorithm(visualizeButtonText)
                 }
               }}
               >Vizualize {visualizeButtonText}
@@ -53,7 +53,7 @@ export const Header = () => {
               <button
                 className="hover:bg-blue-500 px-4 py-2 rounded"
                 onClick={() => toggleDropdown('algorithm')}>
-                Algorithm
+                Algorithms
               </button>
               {isAlgorithmOpen && (
                 <div className="absolute bg-white text-black mt-2 rounded shadow-lg py-2 w-32" >
@@ -62,6 +62,7 @@ export const Header = () => {
                     toggleDropdown('algorithm')
                   }}>Djikstra</button>
                   <button className="block px-4 py-2 hover:bg-gray-100" onClick={()=>{
+                    setVisualizeButtonText("A*")
                     toggleDropdown('algorithm')
                   }}>A*</button>
                 </div>
