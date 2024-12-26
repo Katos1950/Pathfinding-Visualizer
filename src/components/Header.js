@@ -13,6 +13,11 @@ export const Header = () => {
   const [isAlgorithmOpen, setAlgorithmOpen] = useState(false);
   const [isMazesOpen, setMazesOpen] = useState(false);
   const [isSpeedOpen, setSpeedOpen] = useState(false);  
+  const [showModal, setShowModal] = useState(false);
+
+  const closeModal = () => {
+    setShowModal(false); // Close the modal
+  };
 
   const toggleDropdown = (dropdown) => {
     if (dropdown === 'algorithm') {
@@ -44,8 +49,9 @@ export const Header = () => {
               <button   className={`${deactivateButtons ? 'bg-gray-500' : 'bg-cyan-500'} ${deactivateButtons ? 'hover:bg-gray-500' : 'hover:bg-blue-500'} px-4 py-2 rounded text-white`} 
               disabled={deactivateButtons}
               onClick={()=>{
-                if(visualizeButtonText === ""){
+                if(visualizeButtonText === "Algorithm"){
                   //do something
+                  setShowModal(true);
                 }
                 else{
                   setTriggerAlgorithm(visualizeButtonText)
@@ -53,7 +59,34 @@ export const Header = () => {
               }}
               >Vizualize {visualizeButtonText}
               </button>
-          </div>
+
+              {/*Pop up for selecting and algorithm */}
+              {showModal && (
+                <div
+                id="default-modal"
+                tabIndex="-1"
+                aria-hidden="true"
+                className="overflow-y-auto overflow-x-hidden fixed inset-0 z-50 flex justify-center items-center w-full h-full">
+                <div className="relative p-4 w-full max-w-sm max-h-full">
+                  <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                    <div className="p-4 md:p-5 space-y-4">
+                      <p className="text-2xl leading-relaxed text-white-500">Select an Algorithm</p>
+                      <div className="flex items-center justify-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+                        <button
+                          data-modal-hide="default-modal"
+                          type="button"
+                          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                          onClick={closeModal}>
+                          OK
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+            {/* pop up ends */}
+        </div>
 
           <nav className="flex items-center space-x-6">
 
@@ -149,5 +182,3 @@ export const Header = () => {
     </header>
   );
 };
-
-export default Header;
