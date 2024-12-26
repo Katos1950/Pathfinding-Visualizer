@@ -19,7 +19,7 @@ export const Grid = () => {
   const [isStopNodeMoved, setIsStopNodeMoved] = useState(false);
   const [timesRan,setTimesRan] = useState(0);
 
-  const { triggerAlgorithm, setTriggerAlgorithm ,triggerMaze, setTriggerMaze, addStop, setAddStop, speed, setSpeed, clearBoard,setClearBoard,setDeactivateButtons} = useContext(AppContext);
+  const { triggerAlgorithm, setTriggerAlgorithm ,triggerMaze, setTriggerMaze, addStop, setAddStop, speed, setSpeed, clearBoard,setClearBoard,deactivateButtons,setDeactivateButtons} = useContext(AppContext);
 
   useEffect(() => {
     if (triggerAlgorithm === "Djikstra") {
@@ -241,6 +241,7 @@ export const Grid = () => {
             //className={`grid-cell ${node.isStartNode ? "isStartNode":node.isEndNode ? "isEndNode" :node.isWall ? "wall" : shortestPath.includes(`${node.rowIndex} ${node.colIndex}`)? "path" : node.shortestTime !== Number.MAX_SAFE_INTEGER? "visited":""}`}
             className={`grid-cell ${node.isStartNode ? "isStartNode":node.isEndNode ? "isEndNode" : node.isStopNode ? "isStopNode" :node.isWall ? "wall" : shortestPath.includes(`${node.rowIndex} ${node.colIndex}`)? "path" : visited2.includes(`${node.rowIndex} ${node.colIndex}`) ? "visited2" : visited.includes(`${node.rowIndex} ${node.colIndex}`) ? "visited": ""}`}
             onMouseDown={()=>{
+              if(deactivateButtons){return};
                 setIsMouseDown(true)
                   if(node.isEndNode===false && node.isStartNode === false && node.isStopNode === false && isMouseDown){
                     toggleWall(rowIndex, colIndex)
@@ -264,6 +265,7 @@ export const Grid = () => {
             }
 
             onMouseEnter={() => {
+              if(deactivateButtons){return};
               if(node.isEndNode===false && node.isStartNode === false && node.isStopNode === false && isMouseDown && isStartNodeMoved===false && isEndNodeMoved === false && isStopNodeMoved ===false){
                 toggleWall(rowIndex, colIndex)
               }
@@ -276,12 +278,14 @@ export const Grid = () => {
             }}
 
             onMouseLeave={()=>{
+              if(deactivateButtons){return};
               if(isStartNodeMoved && isMouseDown){
                 node.isStartNode = false;
               }
             }}
 
             onMouseUp={()=>{
+              if(deactivateButtons){return};
               setIsMouseDown(false);
               if(isStartNodeMoved){
                 node.isWall = false;//if you placed the start node on a wall
@@ -310,6 +314,7 @@ export const Grid = () => {
             }}
 
             onClick={()=>{
+              if(deactivateButtons){return};
               //some times react does not work properly with mouse enter and exit so this is an extra check to prevent errors
               if(node.isStartNode || node.isEndNode || node.isStopNode){
                 node.isWall = false;
