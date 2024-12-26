@@ -1,12 +1,18 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router';
 import { AppContext } from './AppContext';
 export const Header = () => {
-  const {setTriggerAlgorithm,visualizeButtonText,setVisualizeButtonText, setTriggerMaze, addStop, setAddStop,speed,setSpeed,clearBoard,setClearBoard} = useContext(AppContext);
+  const {setTriggerAlgorithm,
+        visualizeButtonText,setVisualizeButtonText, 
+        setTriggerMaze, 
+        addStop, setAddStop,
+        speed,setSpeed,
+        clearBoard,setClearBoard,
+        deactivateButtons, setDeactivateButtons} = useContext(AppContext);
 
   const [isAlgorithmOpen, setAlgorithmOpen] = useState(false);
   const [isMazesOpen, setMazesOpen] = useState(false);
-  const [isSpeedOpen, setSpeedOpen] = useState(false);
+  const [isSpeedOpen, setSpeedOpen] = useState(false);  
 
   const toggleDropdown = (dropdown) => {
     if (dropdown === 'algorithm') {
@@ -35,7 +41,9 @@ export const Header = () => {
           </div>
 
           <div className=''>
-              <button className='bg-cyan-500 hover:bg-blue-500 px-4 py-2 rounded' onClick={()=>{
+              <button   className={`${deactivateButtons ? 'bg-gray-500' : 'bg-cyan-500'} ${deactivateButtons ? 'hover:bg-gray-500' : 'hover:bg-blue-500'} px-4 py-2 rounded text-white`} 
+              disabled={deactivateButtons}
+              onClick={()=>{
                 if(visualizeButtonText === ""){
                   //do something
                 }
@@ -51,7 +59,8 @@ export const Header = () => {
 
             <div className="relative">
               <button
-                className="hover:bg-blue-500 px-4 py-2 rounded"
+                className={`${deactivateButtons ? 'hover:bg-gray-500' : 'hover:bg-blue-500'} px-4 py-2 rounded`}
+                disabled = {deactivateButtons}
                 onClick={() => toggleDropdown('algorithm')}>
                 Algorithms
               </button>
@@ -71,7 +80,8 @@ export const Header = () => {
 
             <div className="relative">
               <button
-                className="hover:bg-blue-500 px-4 py-2 rounded"
+                className={`${deactivateButtons ? 'hover:bg-gray-500' : 'hover:bg-blue-500'} px-4 py-2 rounded`}
+                disabled = {deactivateButtons}
                 onClick={() => toggleDropdown('mazes')}>
                 Mazes
               </button>
@@ -88,7 +98,9 @@ export const Header = () => {
             </div>
 
             <div className='relative'>
-              <button className='hover:bg-blue-500 px-4 py-2 rounded' onClick={()=>{
+              <button className={`${deactivateButtons ? 'hover:bg-gray-500' : 'hover:bg-blue-500'} px-4 py-2 rounded`} 
+              disabled = {deactivateButtons}
+              onClick={()=>{
                 if(addStop === "Add"){
                   setAddStop("Remove")
                 }
@@ -100,14 +112,17 @@ export const Header = () => {
             </div>
 
             <div>
-              <button className='hover:bg-blue-500 px-4 py-2 rounded' onClick={()=>{               
+              <button className={`${deactivateButtons ? 'hover:bg-gray-500' : 'hover:bg-blue-500'} px-4 py-2 rounded`} 
+              disabled = {deactivateButtons}  
+              onClick={()=>{               
                 setClearBoard(!clearBoard);
               }}>Clear Board</button>
             </div>
 
             <div className="relative">
               <button
-                className="hover:bg-blue-500 px-4 py-2 rounded"
+                className={`${deactivateButtons ? 'hover:bg-gray-500' : 'hover:bg-blue-500'} px-4 py-2 rounded`}
+                disabled = {deactivateButtons}
                 onClick={() => toggleDropdown('speed')}>
                 Speed : {speed}
               </button>

@@ -19,7 +19,7 @@ export const Grid = () => {
   const [isStopNodeMoved, setIsStopNodeMoved] = useState(false);
   const [timesRan,setTimesRan] = useState(0);
 
-  const { triggerAlgorithm, setTriggerAlgorithm ,triggerMaze, setTriggerMaze, addStop, setAddStop, speed, setSpeed, clearBoard,setClearBoard} = useContext(AppContext);
+  const { triggerAlgorithm, setTriggerAlgorithm ,triggerMaze, setTriggerMaze, addStop, setAddStop, speed, setSpeed, clearBoard,setClearBoard,setDeactivateButtons} = useContext(AppContext);
 
   useEffect(() => {
     if (triggerAlgorithm === "Djikstra") {
@@ -161,6 +161,7 @@ export const Grid = () => {
           //explored = [...explored,...explored2]
         }
         if(timesRan === 1){
+          setDeactivateButtons(true);
           setVisited([])
           setVisited2([])
           let j = 0;
@@ -200,6 +201,7 @@ export const Grid = () => {
                 i++; 
               } else {
                 clearInterval(interval); // Stop the interval when all elements are displayed
+                setDeactivateButtons(false);
               }
             }
           }
@@ -225,7 +227,7 @@ export const Grid = () => {
       if(stopNode){
         stopNode.isStopNode = false;
       }
-      Prims(grid,Rows,Cols,setGrid)
+      Prims(grid,Rows,Cols,setGrid,setDeactivateButtons)
       setTimesRan(0);
     } 
 

@@ -1,7 +1,10 @@
-export const Prims = (grid,rows,cols,setGrid,setShortestPath) => {
+import { useContext } from "react";
+import { AppContext } from "../AppContext";
+
+export const Prims = (grid,rows,cols,setGrid,setDeactivateButtons) => {
+
     const startNode = grid.flat().find(node => node.isStartNode);
     const endNode = grid.flat().find(node => node.isEndNode);
-    const mazePath = [];
 
     const assignEdges = (node) => {
 
@@ -24,7 +27,8 @@ export const Prims = (grid,rows,cols,setGrid,setShortestPath) => {
             
                 return edges;
             };
-        
+            
+            setDeactivateButtons(true);
             for(let i=0;i<rows;i++){
                 for(let j=0;j<cols;j++){
                     if(grid[i][j] !== startNode || grid[i][j] !== endNode)
@@ -76,6 +80,7 @@ export const Prims = (grid,rows,cols,setGrid,setShortestPath) => {
                 if (arrayOfEntries.length === 0) {
                     clearInterval(intervalId); // Stop the interval when no frontier cells are left
                     console.log("All frontier cells processed.");
+                    setDeactivateButtons(false);
                     return;
                 }
             
@@ -98,8 +103,6 @@ export const Prims = (grid,rows,cols,setGrid,setShortestPath) => {
                 console.log(Object.entries(frontierCells));
                 setGrid([...grid])
             }, 20);
-            
-            
 
         return (
             <div>Prims</div>

@@ -9,6 +9,7 @@ export const AppProvider = ({ children }) => {
   const [addStop,setAddStop] = useState("Add")
   const [clearBoard,setClearBoard] = useState(false);
   const [speed,setSpeed] = useState("Fast")
+  const [deactivateButtons,setDeactivateButtons] = useState(false);
 
   return (
     <AppContext.Provider value={{
@@ -17,7 +18,8 @@ export const AppProvider = ({ children }) => {
         triggerMaze,setTriggerMaze,
         addStop, setAddStop,
         speed, setSpeed,
-        clearBoard, setClearBoard }}>
+        clearBoard, setClearBoard,
+        deactivateButtons, setDeactivateButtons}}>
       {children}
     </AppContext.Provider>
   );
