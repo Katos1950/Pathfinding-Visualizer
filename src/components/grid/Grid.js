@@ -47,6 +47,7 @@ export const Grid = () => {
       const stopNode = grid.flat().find(node=>node.isStopNode)
       if(stopNode){
         stopNode.isStopNode = false;
+        setVisited2([]);
         setGrid([...grid]);
       }
     }
@@ -322,7 +323,7 @@ export const Grid = () => {
       </div>
     ))}
 
-    <h1>{timesRan}</h1>
+    {/* <h1>{timesRan}</h1>
     <button onClick={()=>{
       if(timesRan!==1){
         setTimesRan(1);
@@ -330,7 +331,7 @@ export const Grid = () => {
       else{
         handleDjikstra();
       }
-    }}>Djikstra</button>
+    }}>Djikstra</button> */}
     
     {/* <button onClick={()=>{
       handlePrims()
