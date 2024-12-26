@@ -56,8 +56,8 @@ export const Grid = () => {
       while(!canSetStop){
 
         const randomRow = Math.floor(Math.random() * Rows);
-        const randomCol = Math.floor(Math.random() * Rows);
-        if(!grid[randomRow][randomCol].isStartNode || !grid[randomRow][randomCol].isEndNode){
+        const randomCol = Math.floor(Math.random() * Cols);
+        if(!grid[randomRow][randomCol].isStartNode && !grid[randomRow][randomCol].isEndNode){
           canSetStop = true;
           grid[randomRow][randomCol].isStopNode = true;
           grid[randomRow][randomCol].isWall = false;
