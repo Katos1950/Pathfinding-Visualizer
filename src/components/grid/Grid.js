@@ -249,6 +249,100 @@ export const Grid = () => {
 
                   else if(node.isStartNode){
                     setIsStartNodeMoved(true);
+                    node.isStartNode = false;
+                  }
+                  
+                  else if(node.isEndNode){
+                    setIsEndNodeMoved(true);
+                    node.isEndNode = false;
+                  }
+
+                  else if(node.isStopNode){
+                    setIsStopNodeMoved(true);
+                    node.isStopNode = false;
+                  }
+              } 
+            }
+
+            onMouseEnter={() => {
+              if(deactivateButtons){return};
+              if(node.isEndNode===false && node.isStartNode === false && node.isStopNode === false && isMouseDown && isStartNodeMoved===false && isEndNodeMoved === false && isStopNodeMoved ===false){
+                toggleWall(rowIndex, colIndex)
+              }
+              // if(isStartNodeMoved && isMouseDown){
+              //   node.isStartNode = true;
+              //   if(timesRan>0){
+              //     setTimesRan(timesRan+1);
+              // }
+              // }
+            }}
+
+            // onMouseLeave={()=>{
+            //   if(deactivateButtons){return};
+            //   if(isStartNodeMoved && isMouseDown){
+            //     node.isStartNode = false;
+            //   }
+            // }}
+
+            onMouseUp={()=>{
+              if(deactivateButtons){return};
+              setIsMouseDown(false);
+              if(isStartNodeMoved){
+                node.isWall = false;//if you placed the start node on a wall
+                node.isStartNode=true;
+                setIsStartNodeMoved(false);
+                if(timesRan>0){
+                    setTimesRan(timesRan+1);
+                }
+              }
+              else if(isEndNodeMoved){
+                node.isWall = false;
+                node.isEndNode=true;
+                setIsEndNodeMoved(false);
+                if(timesRan>0){
+                  setTimesRan(timesRan+1);
+                }
+              }
+              else if(isStopNodeMoved){
+                node.isWall = false;
+                node.isStopNode=true;
+                setIsStopNodeMoved(false);
+                if(timesRan>0){
+                  setTimesRan(timesRan+1);
+                }
+              }
+            }}
+
+            onClick={()=>{
+              if(deactivateButtons){return};
+              //some times react does not work properly with mouse enter and exit so this is an extra check to prevent errors
+              if(node.isStartNode || node.isEndNode || node.isStopNode){
+                node.isWall = false;
+              }
+
+              else if(node.isEndNode===false && node.isStartNode === false && node.isStopNode === false){
+                toggleWall(rowIndex, colIndex)
+              }
+            }}>
+
+          </div>
+        ))}
+      </div>
+    ))}
+  </div>
+  )
+}
+
+
+/* Working start node movement
+              if(deactivateButtons){return};
+                setIsMouseDown(true)
+                  if(node.isEndNode===false && node.isStartNode === false && node.isStopNode === false && isMouseDown){
+                    toggleWall(rowIndex, colIndex)
+                  }
+
+                  else if(node.isStartNode){
+                    setIsStartNodeMoved(true);
                     //node.isStartNode = false;
                   }
                   
@@ -323,44 +417,5 @@ export const Grid = () => {
               else if(node.isEndNode===false && node.isStartNode === false && node.isStopNode === false){
                 toggleWall(rowIndex, colIndex)
               }
-            }}
-
-          ></div>
-        ))}
-      </div>
-    ))}
-
-    {/* <h1>{timesRan}</h1>
-    <button onClick={()=>{
-      if(timesRan!==1){
-        setTimesRan(1);
-      }
-      else{
-        handleDjikstra();
-      }
-    }}>Djikstra</button> */}
-    
-    {/* <button onClick={()=>{
-      handlePrims()
-      }}>Divide</button> */}
-
-      {/* <button onClick={()=>{
-        if(!grid.flat().find(node => node.isStopNode)){
-          let canSetStop = false;
-          while(!canSetStop){
-
-            const randomRow = Math.floor(Math.random() * Rows);
-            const randomCol = Math.floor(Math.random() * Rows);
-            if(!grid[randomRow][randomCol].isStartNode || !grid[randomRow][randomCol].isEndNode){
-              canSetStop = true;
-              grid[randomRow][randomCol].isStopNode = true;
-              grid[randomRow][randomCol].isWall = false;
-              setGrid([...grid])
-            }
-          }
-        }
-        
-      }}>Add a Stop</button> */}
-  </div>
-  )
-}
+            }}>
+            */
