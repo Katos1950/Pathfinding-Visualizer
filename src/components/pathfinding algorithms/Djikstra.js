@@ -115,7 +115,7 @@ export const Djikstra = (grid,rows,cols) => {
         explored = []
         unexplored = []
         shortestTime = {}
-        allotEdges();
+        //allotEdges();
         currentNode = stopNode;
         startNode = currentNode;
         endNode = grid.flat().find(node => node.isEndNode);

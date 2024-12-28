@@ -7,7 +7,7 @@ import { Prims } from "../maze algorithms/Prims";
 import { AppContext } from "../AppContext";
 import { GreedyBestFirstSearch } from "../pathfinding algorithms/GreedyBestFirstSearch";
 import { BFS } from "../pathfinding algorithms/BFS";
-import { Col } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 
 
 
@@ -32,7 +32,7 @@ export const Grid = () => {
         setTimesRan(1);
       }
       else{
-        handleDjikstra();
+        handleAlgorithm("Djikstra");
       }
       setTriggerAlgorithm("DK")//Resetting the string
     }
@@ -42,7 +42,7 @@ export const Grid = () => {
         setTimesRan(1);
       }
       else{
-        handleGBFS();
+        handleAlgorithm("Greedy Best First Search");
       }
       setTriggerAlgorithm("GBFS")//Resetting the string
     }
@@ -52,7 +52,7 @@ export const Grid = () => {
         setTimesRan(1);
       }
       else{
-        handleBFS();
+        handleAlgorithm("BFS");
       }
       setTriggerAlgorithm("BF")//Resetting the string
     }
@@ -118,11 +118,11 @@ export const Grid = () => {
   useEffect(()=>{
     if(timesRan>0){
       if(triggerAlgorithm === "Djikstra" || triggerAlgorithm === "DK")
-        handleDjikstra();
+        handleAlgorithm("Djikstra");
       else if(triggerAlgorithm === "Greedy Best First Search" || triggerAlgorithm === "GBFS")
-        handleGBFS();
+        handleAlgorithm("Greedy Best First Search")
       else if(triggerAlgorithm === "BFS" || triggerAlgorithm === "BF")
-        handleBFS();
+        handleAlgorithm("BFS");
       
 
     }
@@ -154,14 +154,45 @@ export const Grid = () => {
         );
       };
       
-      const handleDjikstra = () => {
+      // const handleDjikstra = () => {
+      //   setShortestPath([])
+      //   const resetGridState = resetGrid(grid);
+      //   setGrid(resetGridState);
+      //   retrievePathAndExplored("Djikstra");
+      // };
+
+      // const handleBFS = ()=>{
+      //   setShortestPath([])
+      //   const resetGridState = resetGrid(grid);
+      //   setGrid(resetGridState);
+      //   retrievePathAndExplored("BFS");
+      // }
+
+      // const handleGBFS = ()=>{
+      //   setShortestPath([])
+      //   const resetGridState = resetGrid(grid);
+      //   setGrid(resetGridState);
+      //   const pathAndExplored = GreedyBestFirstSearch(grid,Rows,Cols);
+      //   setVisited(pathAndExplored[1])
+      //   setShortestPath(pathAndExplored[0])
+      //   console.log(pathAndExplored[0])
+      // }
+
+
+      function handleAlgorithm(algorithm){
         setShortestPath([])
         const resetGridState = resetGrid(grid);
         setGrid(resetGridState);
-        //const path = Djikstra(resetGridState, Rows, Cols);
-
-        //Displaying all the explored nodes slowly
-        const pathAndExplored = Djikstra(resetGridState, Rows, Cols);
+        let pathAndExplored=null;
+        switch(algorithm){
+          case "Djikstra":
+            pathAndExplored = Djikstra(resetGridState, Rows, Cols);
+            break;
+          case "BFS":
+            pathAndExplored = BFS(resetGridState,Rows,Cols)
+            console.log(pathAndExplored)
+            break;
+        }
         let path = pathAndExplored[0]
         let explored =pathAndExplored[1]
         const path2 = pathAndExplored[2]
@@ -245,26 +276,6 @@ export const Grid = () => {
           setShortestPath(path);
 
         }
-      };
-
-      const handleBFS = ()=>{
-        setShortestPath([])
-        const resetGridState = resetGrid(grid);
-        setGrid(resetGridState);
-        const pathAndExplored = BFS(grid,Rows,Cols);
-        // const pathAndExplored = GreedyBestFirstSearch(grid,Rows,Cols);
-        setVisited(pathAndExplored[1])
-        setShortestPath(pathAndExplored[0])
-      }
-
-      const handleGBFS = ()=>{
-        setShortestPath([])
-        const resetGridState = resetGrid(grid);
-        setGrid(resetGridState);
-        const pathAndExplored = GreedyBestFirstSearch(grid,Rows,Cols);
-        setVisited(pathAndExplored[1])
-        setShortestPath(pathAndExplored[0])
-        console.log(pathAndExplored[0])
       }
       
 

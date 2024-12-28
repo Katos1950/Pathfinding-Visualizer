@@ -2,8 +2,12 @@ export const BFS = (grid, rows, cols) => {
     let startNode = grid.flat().find(node => node.isStartNode);
     let endNode = grid.flat().find(node => node.isEndNode);
     let explored = [];
-    let shortestPath = [];
     let currentNode = null;
+    let stopNode = grid.flat().find(node => node.isStopNode);
+    let firstExplored = null;
+    let firstShortestPath = null;
+    let secondExplored = null;
+    let secondShortestPath = null;
 
     const assignEdges = (node) => {
         const edges = {};
@@ -62,9 +66,10 @@ export const BFS = (grid, rows, cols) => {
     };
 
     const determineShortestPath = () => {
+        let shortestPath = [];
         if (currentNode !== endNode) {
             console.error("No path found to the end node.");
-            return;
+            return shortestPath.reverse();
         }
 
         while (currentNode) {
@@ -72,12 +77,29 @@ export const BFS = (grid, rows, cols) => {
             currentNode = currentNode.prevNode;
         }
 
-        shortestPath.reverse(); // Start to end
+        return shortestPath.reverse(); // Start to end
     };
 
-    allotEdges();
-    bfsShortestPath();
-    determineShortestPath();
+    if(stopNode){
+        allotEdges();
+        endNode = stopNode
+        bfsShortestPath();
+        firstExplored =  explored;
+        firstShortestPath = determineShortestPath();
 
-    return [shortestPath, explored];
+        explored =[];
+        startNode = stopNode;
+        endNode = grid.flat().find(node=> node.isEndNode);
+        bfsShortestPath();
+        secondExplored =  explored;
+        secondShortestPath = determineShortestPath();
+    }
+    else{
+        allotEdges();
+        bfsShortestPath();
+        firstExplored = explored;
+        firstShortestPath = determineShortestPath();
+    }
+
+    return [firstShortestPath,firstExplored, secondShortestPath,secondExplored];
 };

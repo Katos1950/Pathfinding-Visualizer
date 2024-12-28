@@ -74,8 +74,6 @@ export const Prims = (grid,rows,cols,setGrid,setDeactivateButtons) => {
                 });
             
                 const arrayOfEntries = Object.entries(frontierCells);
-                console.log("Frontier cell ");
-                console.log(arrayOfEntries);
             
                 if (arrayOfEntries.length === 0) {
                     clearInterval(intervalId); // Stop the interval when no frontier cells are left
@@ -86,7 +84,6 @@ export const Prims = (grid,rows,cols,setGrid,setDeactivateButtons) => {
             
                 const randomElementIndex = Math.floor(Math.random() * arrayOfEntries.length);
                 const randomElemenent = arrayOfEntries[randomElementIndex];
-                console.log("random element to remove " + randomElemenent);
             
                 const frontierCellKey = randomElemenent[0];
                 const [frontierCellRow, frontierCellCol] = frontierCellKey.split(" ").map(Number);
@@ -99,8 +96,6 @@ export const Prims = (grid,rows,cols,setGrid,setDeactivateButtons) => {
                 currCol = frontierCellCol;
             
                 delete frontierCells[frontierCellKey];
-                console.log("After deleting");
-                console.log(Object.entries(frontierCells));
                 setGrid([...grid])
             }, 20);
 
