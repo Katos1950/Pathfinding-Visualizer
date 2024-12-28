@@ -5,6 +5,9 @@ import { GridContext } from "./GridContext";
 import { RecursiveDivision } from "../maze algorithms/RecursiveDivision";
 import { Prims } from "../maze algorithms/Prims";
 import { AppContext } from "../AppContext";
+import { GreedyBestFirstSearch } from "../pathfinding algorithms/GreedyBestFirstSearch";
+import { BFS } from "../pathfinding algorithms/BFS";
+import { Col } from "react-bootstrap";
 
 
 
@@ -31,7 +34,27 @@ export const Grid = () => {
       else{
         handleDjikstra();
       }
-      setTriggerAlgorithm("Djikstr")//Resetting the string
+      setTriggerAlgorithm("DK")//Resetting the string
+    }
+    else if(triggerAlgorithm === "Greedy Best First Search"){
+      console.log(triggerAlgorithm)
+      if(timesRan!==1){
+        setTimesRan(1);
+      }
+      else{
+        handleGBFS();
+      }
+      setTriggerAlgorithm("GBFS")//Resetting the string
+    }
+    else if(triggerAlgorithm === "BFS"){
+      console.log(triggerAlgorithm)
+      if(timesRan!==1){
+        setTimesRan(1);
+      }
+      else{
+        handleBFS();
+      }
+      setTriggerAlgorithm("BF")//Resetting the string
     }
   }, [triggerAlgorithm]);
 
@@ -93,8 +116,16 @@ export const Grid = () => {
   },[clearBoard]);
 
   useEffect(()=>{
-    if(timesRan>0)
-      handleDjikstra();
+    if(timesRan>0){
+      if(triggerAlgorithm === "Djikstra" || triggerAlgorithm === "DK")
+        handleDjikstra();
+      else if(triggerAlgorithm === "Greedy Best First Search" || triggerAlgorithm === "GBFS")
+        handleGBFS();
+      else if(triggerAlgorithm === "BFS" || triggerAlgorithm === "BF")
+        handleBFS();
+      
+
+    }
   },[timesRan]);
 
   //grid[9][45].isStopNode = true;
@@ -215,6 +246,26 @@ export const Grid = () => {
 
         }
       };
+
+      const handleBFS = ()=>{
+        setShortestPath([])
+        const resetGridState = resetGrid(grid);
+        setGrid(resetGridState);
+        const pathAndExplored = BFS(grid,Rows,Cols);
+        // const pathAndExplored = GreedyBestFirstSearch(grid,Rows,Cols);
+        setVisited(pathAndExplored[1])
+        setShortestPath(pathAndExplored[0])
+      }
+
+      const handleGBFS = ()=>{
+        setShortestPath([])
+        const resetGridState = resetGrid(grid);
+        setGrid(resetGridState);
+        const pathAndExplored = GreedyBestFirstSearch(grid,Rows,Cols);
+        setVisited(pathAndExplored[1])
+        setShortestPath(pathAndExplored[0])
+        console.log(pathAndExplored[0])
+      }
       
 
     const handlePrims = () => {

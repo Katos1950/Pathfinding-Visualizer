@@ -104,9 +104,13 @@ export const Header = () => {
                     toggleDropdown('algorithm')
                   }}>Djikstra</button>
                   <button className="block px-4 py-2 hover:bg-gray-100" onClick={()=>{
-                    setVisualizeButtonText("A*")
+                    setVisualizeButtonText("BFS")
                     toggleDropdown('algorithm')
-                  }}>A*</button>
+                  }}>BFS</button>
+                  <button className="block px-4 py-2 hover:bg-gray-100" onClick={()=>{
+                    setVisualizeButtonText("Greedy Best First Search")
+                    toggleDropdown('algorithm')
+                  }}>Greedy Best First Search</button>
                 </div>
               )}
             </div>
