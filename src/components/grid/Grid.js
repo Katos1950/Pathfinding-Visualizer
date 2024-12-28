@@ -190,8 +190,9 @@ export const Grid = () => {
             break;
           case "BFS":
             pathAndExplored = BFS(resetGridState,Rows,Cols)
-            console.log(pathAndExplored)
             break;
+          case "Greedy Best First Search":
+            pathAndExplored = GreedyBestFirstSearch(resetGridState,Rows,Cols)
         }
         let path = pathAndExplored[0]
         let explored =pathAndExplored[1]

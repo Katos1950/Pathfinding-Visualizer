@@ -12,7 +12,6 @@ import React from "react";
     this.prevNode = null;
     this.edges = {};
     this.shortestTime = Number.MAX_SAFE_INTEGER;
-    this.heuristic = Number.MAX_SAFE_INTEGER;
   }
 
   // setStartNode() {
