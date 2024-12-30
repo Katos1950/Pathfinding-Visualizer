@@ -46,13 +46,32 @@
     background-image: url("../../images/stop.png");
   }
 
+  @keyframes colorChangeBlue{
+    0%   {background-color:#0066b2; left:0px; top:0px;}
+    25%  {background-color:#007FFF; left:200px; top:0px;}
+    50%  {background-color:#318CE7; left:200px; top:200px;}
+    75%  {background-color:turquoise; left:0px; top:200px;}
+    100% {background-color:lightblue; left:0px; top:0px;}
+  }
+
   .grid-cell.visited {
     background-image: url("");
     background-color: lightblue;
-
-  } .grid-cell.visited2 {
+    animation: colorChangeBlue 0.5s linear;
+  } 
+  
+  @keyframes colorChangeRed{
+    0%   {background-color:#D2122E; left:0px; top:0px;}
+    25%  {background-color:#E23D28; left:200px; top:0px;}
+    50%  {background-color:#E44D2E; left:200px; top:200px;}
+    75%  {background-color:#FF7F50; left:0px; top:200px;}
+    100% {background-color:lightcoral; left:0px; top:0px;}
+  }
+  
+  .grid-cell.visited2 {
     background-image: url("");
     background-color: lightcoral;
+    animation: colorChangeRed 0.5s linear;
   }
 
   .grid-cell.path {
