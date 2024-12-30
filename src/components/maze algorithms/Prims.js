@@ -1,6 +1,3 @@
-import { useContext } from "react";
-import { AppContext } from "../AppContext";
-
 export const Prims = (grid,rows,cols,setGrid,setDeactivateButtons) => {
 
     const startNode = grid.flat().find(node => node.isStartNode);

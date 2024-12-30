@@ -1,5 +1,4 @@
 export const Djikstra = (grid,rows,cols) => {
-
     let explored = [];
     let unexplored = [];
     let shortestTime = {};
@@ -27,7 +26,7 @@ export const Djikstra = (grid,rows,cols) => {
         if (colIndex < cols - 1 && !grid[rowIndex][colIndex + 1].isWall) {
             edges[`${rowIndex} ${colIndex + 1}`] = 1; // Right neighbor
         }
-    
+
         return edges;
     };
 
@@ -38,7 +37,6 @@ export const Djikstra = (grid,rows,cols) => {
             const node = grid[row][col];
                 if (!node.isWall) {
                     shortestTime[`${row} ${col}`] = Number.MAX_SAFE_INTEGER;
-                    //if(node.rowIndex == startNode.rowIndex && node.colIndex === startNode.colIndex){shortestTime[`${row} ${col}`] = 0}
                     unexplored.push(`${row} ${col}`);
                     node.edges = assignEdges(node);
                 }  
@@ -80,7 +78,6 @@ export const Djikstra = (grid,rows,cols) => {
     
                 if(shortestTime[`${row} ${col}`] < minTime){
                     minTime = shortestTime[`${row} ${col}`];
-                    //nextNode = grid.flat().find(nodes => (nodes.rowIndex==row && nodes.colIndex==col));
                     nextNode = grid[row][col];
                 }
             })   
@@ -122,8 +119,6 @@ export const Djikstra = (grid,rows,cols) => {
         traverse()
         secondShortestPath = determineShortestPath().reverse();
         secondExplored = explored;
-        //shortestPath = [...secondShortestPath,...firsrShortestPath]
-        //explored = [...firstExplored,...secondExplored];
     }
     else{
         allotEdges();
@@ -132,15 +127,8 @@ export const Djikstra = (grid,rows,cols) => {
         firstExplored = explored;
         firstShortestPath = determineShortestPath().reverse();
     }
-    //Finding the shortest path using prevNode property of each node
-    //Right now current node is the end node, we are traversing from end node to start node
-    
-    //console.log(grid);
-    //console.log("Shortest Path:");
-    //console.log(shortestPath.reverse());
 
   return (
-    //shortestPath.reverse()
     [firstShortestPath,firstExplored,secondShortestPath,secondExplored]
   )
 }

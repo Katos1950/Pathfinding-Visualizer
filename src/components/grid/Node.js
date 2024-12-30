@@ -13,20 +13,4 @@ import React from "react";
     this.edges = {};
     this.shortestTime = Number.MAX_SAFE_INTEGER;
   }
-
-  // setStartNode() {
-  //   this.isStartNode = true;
-  //   this.shortestTime = 0;
-  //   this.isWall = false;
-  // }
-
-  // setEndNode() {
-  //   this.isEndNode = true;
-  // }
-
-  // toggleWall() {
-  //   this.isWall = !this.isWall;
-  // }
 }
-
-//export default Node;

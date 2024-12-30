@@ -2,18 +2,16 @@ import { useContext, useEffect, useState } from "react";
 import "./Grid.css";
 import { Djikstra } from "../pathfinding algorithms/Djikstra";
 import { GridContext } from "./GridContext";
-import { RecursiveDivision } from "../maze algorithms/RecursiveDivision";
 import { Prims } from "../maze algorithms/Prims";
 import { AppContext } from "../AppContext";
 import { GreedyBestFirstSearch } from "../pathfinding algorithms/GreedyBestFirstSearch";
 import { BFS } from "../pathfinding algorithms/BFS";
-import { Col, Row } from "react-bootstrap";
 
 
 
 export const Grid = () => {
   
-  const {grid,setGrid,shortestPath,setShortestPath,Rows,Cols,initStartNodeRow,initStartNodeCol,initEndNodeRow,initEndNodeCol} = useContext(GridContext);
+  const {grid,setGrid,shortestPath,setShortestPath,Rows,Cols} = useContext(GridContext);
   const [visited,setVisited] = useState([]);
   const [visited2,setVisited2] = useState([]);
   const [isMouseDown, setIsMouseDown] = useState(false);
@@ -22,12 +20,11 @@ export const Grid = () => {
   const [isStopNodeMoved, setIsStopNodeMoved] = useState(false);
   const [timesRan,setTimesRan] = useState(0);
 
-  const { triggerAlgorithm, setTriggerAlgorithm ,triggerMaze, setTriggerMaze, addStop, setAddStop, speed, setSpeed, clearBoard,setClearBoard,deactivateButtons,setDeactivateButtons} = useContext(AppContext);
+  const { triggerAlgorithm, setTriggerAlgorithm ,triggerMaze, setTriggerMaze, addStop, setAddStop, speed, clearBoard,setClearBoard,deactivateButtons,setDeactivateButtons} = useContext(AppContext);
 
   useEffect(() => {
     if (triggerAlgorithm === "Djikstra") {
       console.log(triggerAlgorithm)
-      //setTriggerAlgorithm(""); // Reset after execution
       if(timesRan!==1){
         setTimesRan(1);
       }
@@ -57,6 +54,17 @@ export const Grid = () => {
       setTriggerAlgorithm("BF")//Resetting the string
     }
   }, [triggerAlgorithm]);
+
+  useEffect(()=>{
+    if(timesRan>0){
+      if(triggerAlgorithm === "Djikstra" || triggerAlgorithm === "DK")
+        handleAlgorithm("Djikstra");
+      else if(triggerAlgorithm === "Greedy Best First Search" || triggerAlgorithm === "GBFS")
+        handleAlgorithm("Greedy Best First Search")
+      else if(triggerAlgorithm === "BFS" || triggerAlgorithm === "BF")
+        handleAlgorithm("BFS");
+    }
+  },[timesRan]);
 
   useEffect(()=>{
     if(triggerMaze === "Prims"){
@@ -121,21 +129,6 @@ export const Grid = () => {
     }
   },[clearBoard]);
 
-  useEffect(()=>{
-    if(timesRan>0){
-      if(triggerAlgorithm === "Djikstra" || triggerAlgorithm === "DK")
-        handleAlgorithm("Djikstra");
-      else if(triggerAlgorithm === "Greedy Best First Search" || triggerAlgorithm === "GBFS")
-        handleAlgorithm("Greedy Best First Search")
-      else if(triggerAlgorithm === "BFS" || triggerAlgorithm === "BF")
-        handleAlgorithm("BFS");
-      
-
-    }
-  },[timesRan]);
-
-  //grid[9][45].isStopNode = true;
-
     const toggleWall = (rowIndex, colIndex) => {
         const newGrid = grid.map((row, rIndex) => {
           return row.map((node, cIndex) => {
@@ -160,31 +153,6 @@ export const Grid = () => {
         );
       };
       
-      // const handleDjikstra = () => {
-      //   setShortestPath([])
-      //   const resetGridState = resetGrid(grid);
-      //   setGrid(resetGridState);
-      //   retrievePathAndExplored("Djikstra");
-      // };
-
-      // const handleBFS = ()=>{
-      //   setShortestPath([])
-      //   const resetGridState = resetGrid(grid);
-      //   setGrid(resetGridState);
-      //   retrievePathAndExplored("BFS");
-      // }
-
-      // const handleGBFS = ()=>{
-      //   setShortestPath([])
-      //   const resetGridState = resetGrid(grid);
-      //   setGrid(resetGridState);
-      //   const pathAndExplored = GreedyBestFirstSearch(grid,Rows,Cols);
-      //   setVisited(pathAndExplored[1])
-      //   setShortestPath(pathAndExplored[0])
-      //   console.log(pathAndExplored[0])
-      // }
-
-
       function handleAlgorithm(algorithm){
         setShortestPath([])
         const resetGridState = resetGrid(grid);
@@ -248,8 +216,7 @@ export const Grid = () => {
                 dummyExplored2.push(explored2[j-explored.length]);
                 setVisited2([...dummyExplored2]);
                 j++;
-            }
-             
+            }  
             else {
               clearInterval(exploredInterval); // Stop the interval when all elements are displayed
               displayShortestPath();
@@ -274,7 +241,6 @@ export const Grid = () => {
               }
             }
           }
-          //setTimesRan(prevTimesran => prevTimesran+1);
         }
         else{
           setVisited(explored);
@@ -285,10 +251,7 @@ export const Grid = () => {
         }
       }
       
-
     const handlePrims = () => {
-      // const resetGridState = resetGrid(grid);
-      // setGrid(resetGridState);
       setShortestPath([])
       setVisited([])
       setVisited2([])
@@ -338,20 +301,7 @@ export const Grid = () => {
               if(node.isEndNode===false && node.isStartNode === false && node.isStopNode === false && isMouseDown && isStartNodeMoved===false && isEndNodeMoved === false && isStopNodeMoved ===false){
                 toggleWall(rowIndex, colIndex)
               }
-              // if(isStartNodeMoved && isMouseDown){
-              //   node.isStartNode = true;
-              //   if(timesRan>0){
-              //     setTimesRan(timesRan+1);
-              // }
-              // }
             }}
-
-            // onMouseLeave={()=>{
-            //   if(deactivateButtons){return};
-            //   if(isStartNodeMoved && isMouseDown){
-            //     node.isStartNode = false;
-            //   }
-            // }}
 
             onMouseUp={()=>{
               if(deactivateButtons){return};
@@ -388,7 +338,6 @@ export const Grid = () => {
               if(node.isStartNode || node.isEndNode || node.isStopNode){
                 node.isWall = false;
               }
-
               else if(node.isEndNode===false && node.isStartNode === false && node.isStopNode === false){
                 toggleWall(rowIndex, colIndex)
               }
@@ -401,90 +350,3 @@ export const Grid = () => {
   </div>
   )
 }
-
-
-/* Working start node movement
-              if(deactivateButtons){return};
-                setIsMouseDown(true)
-                  if(node.isEndNode===false && node.isStartNode === false && node.isStopNode === false && isMouseDown){
-                    toggleWall(rowIndex, colIndex)
-                  }
-
-                  else if(node.isStartNode){
-                    setIsStartNodeMoved(true);
-                    //node.isStartNode = false;
-                  }
-                  
-                  else if(node.isEndNode){
-                    setIsEndNodeMoved(true);
-                    node.isEndNode = false;
-                  }
-
-                  else if(node.isStopNode){
-                    setIsStopNodeMoved(true);
-                    node.isStopNode = false;
-                  }
-              } 
-            }
-
-            onMouseEnter={() => {
-              if(deactivateButtons){return};
-              if(node.isEndNode===false && node.isStartNode === false && node.isStopNode === false && isMouseDown && isStartNodeMoved===false && isEndNodeMoved === false && isStopNodeMoved ===false){
-                toggleWall(rowIndex, colIndex)
-              }
-              if(isStartNodeMoved && isMouseDown){
-                node.isStartNode = true;
-                if(timesRan>0){
-                  setTimesRan(timesRan+1);
-              }
-              }
-            }}
-
-            onMouseLeave={()=>{
-              if(deactivateButtons){return};
-              if(isStartNodeMoved && isMouseDown){
-                node.isStartNode = false;
-              }
-            }}
-
-            onMouseUp={()=>{
-              if(deactivateButtons){return};
-              setIsMouseDown(false);
-              if(isStartNodeMoved){
-                node.isWall = false;//if you placed the start node on a wall
-                node.isStartNode=true;
-                setIsStartNodeMoved(false);
-                if(timesRan>0){
-                    setTimesRan(timesRan+1);
-                }
-              }
-              else if(isEndNodeMoved){
-                node.isWall = false;
-                node.isEndNode=true;
-                setIsEndNodeMoved(false);
-                if(timesRan>0){
-                  setTimesRan(timesRan+1);
-                }
-              }
-              else if(isStopNodeMoved){
-                node.isWall = false;
-                node.isStopNode=true;
-                setIsStopNodeMoved(false);
-                if(timesRan>0){
-                  setTimesRan(timesRan+1);
-                }
-              }
-            }}
-
-            onClick={()=>{
-              if(deactivateButtons){return};
-              //some times react does not work properly with mouse enter and exit so this is an extra check to prevent errors
-              if(node.isStartNode || node.isEndNode || node.isStopNode){
-                node.isWall = false;
-              }
-
-              else if(node.isEndNode===false && node.isStartNode === false && node.isStopNode === false){
-                toggleWall(rowIndex, colIndex)
-              }
-            }}>
-            */
