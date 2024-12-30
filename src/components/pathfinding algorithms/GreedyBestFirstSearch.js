@@ -78,7 +78,7 @@ export const GreedyBestFirstSearch = (grid, rows, cols) => {
 
     const determineShortestPath = () => {
         let shortestPath = []
-        let currentNode = endNode;
+        currentNode = endNode;
         if(endNode.prevNode === null){
             currentNode = startNode;
             console.log("No path exists")
@@ -93,9 +93,28 @@ export const GreedyBestFirstSearch = (grid, rows, cols) => {
         return shortestPath.reverse();
     }
 
-    initializeNodes();
-    traverse();
-    firstShortestPath = determineShortestPath();
+    if(stopNode){
+        endNode = stopNode;
+        initializeNodes();
+        traverse();
+        firstExplored = explored;
+        firstShortestPath = determineShortestPath();
 
-    return [firstShortestPath,explored,null,null];
+        explored =[]
+        queue=[]
+        startNode = stopNode
+        endNode = grid.flat().find(node => node.isEndNode)
+        initializeNodes();
+        traverse();
+        secondExplored = explored;
+        secondShortestPath = determineShortestPath();
+    }
+    else{
+        initializeNodes();
+        traverse();
+        firstExplored = explored;
+        firstShortestPath = determineShortestPath();
+    }
+
+    return [firstShortestPath,firstExplored,secondShortestPath,secondExplored];
 };
