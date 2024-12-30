@@ -42,7 +42,7 @@ export const Header = () => {
         <div className="flex justify-between items-center h-16">
 
           <div className="text-xl font-bold">
-            <Link to = "/">PathFinding Visualizer</Link>
+            <a href = "/">PathFinding Visualizer</a>
           </div>
 
           <div className=''>

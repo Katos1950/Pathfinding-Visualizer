@@ -10,9 +10,9 @@
   }
   
   .grid-cell {
-    width: 30px;
-    height: 30px;
-    padding: 2px;
+    width: 28px;
+    height: 28px;
+    padding: 1px;
     border: 1px solid #ddd;
     cursor: pointer;
     background-image: url("../../images/grass.png");

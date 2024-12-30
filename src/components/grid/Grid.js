@@ -70,6 +70,9 @@ export const Grid = () => {
       const stopNode = grid.flat().find(node=>node.isStopNode)
       if(stopNode){
         stopNode.isStopNode = false;
+        setTimesRan(0)
+        setShortestPath([])
+        setVisited([])
         setVisited2([]);
         setGrid([...grid]);
       }
@@ -84,6 +87,9 @@ export const Grid = () => {
           canSetStop = true;
           grid[randomRow][randomCol].isStopNode = true;
           grid[randomRow][randomCol].isWall = false;
+          setTimesRan(0)
+          setVisited([])
+          setShortestPath([])
           setGrid([...grid])
         }
       }
