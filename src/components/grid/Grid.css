@@ -1,7 +1,7 @@
 .grid {
     display: flex;
     flex-direction: column;
-    margin: 20px auto;
+    margin: 2px auto;
     width: max-content;
   }
   
@@ -55,7 +55,7 @@
   }
 
   .grid-cell.visited {
-    background-image: url("");
+    background-image: none;
     background-color: lightblue;
     animation: colorChangeBlue 0.5s linear;
   } 
@@ -69,7 +69,7 @@
   }
   
   .grid-cell.visited2 {
-    background-image: url("");
+    background-image: none;
     background-color: lightcoral;
     animation: colorChangeRed 0.5s linear;
   }
