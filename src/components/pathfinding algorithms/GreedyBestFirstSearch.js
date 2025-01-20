@@ -1,4 +1,4 @@
-export const GreedyBestFirstSearch = (grid, rows, cols) => {
+export const GreedyBestFirstSearch = (grid, rows, cols, addStop) => {
     let explored = [];
     let queue = [];
     let shortestTime = {};
@@ -11,6 +11,8 @@ export const GreedyBestFirstSearch = (grid, rows, cols) => {
     let firstShortestPath = null;
     let secondExplored = null;
     let secondShortestPath = null;
+
+    if(!startNode || !endNode || (!stopNode && addStop === "Remove")){return} //If start,stop or end nodes are dragged and the cursor is out of the grid
 
     const assignEdges = (node) => {
         const edges = {};

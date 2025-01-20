@@ -1,4 +1,4 @@
-export const Djikstra = (grid,rows,cols) => {
+export const Djikstra = (grid,rows,cols,addStop) => {
     let explored = [];
     let unexplored = [];
     let shortestTime = {};
@@ -10,6 +10,7 @@ export const Djikstra = (grid,rows,cols) => {
     let secondExplored = null;
     let secondShortestPath = null;
 
+    if(!startNode || !endNode || (!stopNode && addStop === "Remove")){return} //If start,stop or end nodes are dragged and the cursor is out of the grid
     const assignEdges = (node) => {
         const edges = {};
         const { rowIndex, colIndex } = node;

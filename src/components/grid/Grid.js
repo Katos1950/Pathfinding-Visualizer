@@ -160,14 +160,15 @@ export const Grid = () => {
         let pathAndExplored=null;
         switch(algorithm){
           case "Djikstra":
-            pathAndExplored = Djikstra(resetGridState, Rows, Cols);
+            pathAndExplored = Djikstra(resetGridState, Rows, Cols,addStop);
             break;
           case "BFS":
-            pathAndExplored = BFS(resetGridState,Rows,Cols)
+            pathAndExplored = BFS(resetGridState,Rows,Cols, addStop)
             break;
           case "Greedy Best First Search":
-            pathAndExplored = GreedyBestFirstSearch(resetGridState,Rows,Cols)
+            pathAndExplored = GreedyBestFirstSearch(resetGridState,Rows,Cols, addStop)
         }
+        if(!pathAndExplored){return}//If start,stop or end nodes are dragged and the cursor is out of the grid
         let path = pathAndExplored[0]
         let explored =pathAndExplored[1]
         const path2 = pathAndExplored[2]
@@ -272,7 +273,99 @@ export const Grid = () => {
             key={colIndex}
             //className={`grid-cell ${node.isStartNode ? "isStartNode":node.isEndNode ? "isEndNode" :node.isWall ? "wall" : shortestPath.includes(`${node.rowIndex} ${node.colIndex}`)? "path" : node.shortestTime !== Number.MAX_SAFE_INTEGER? "visited":""}`}
             className={`grid-cell ${node.isStartNode ? "isStartNode":node.isEndNode ? "isEndNode" : node.isStopNode ? "isStopNode" :node.isWall ? "wall" : shortestPath.includes(`${node.rowIndex} ${node.colIndex}`)? "path" : visited2.includes(`${node.rowIndex} ${node.colIndex}`) ? "visited2" : visited.includes(`${node.rowIndex} ${node.colIndex}`) ? "visited": ""}`}
+
             onMouseDown={()=>{
+              if(deactivateButtons){return};
+                setIsMouseDown(true)
+                
+                if(node.isEndNode===false && node.isStartNode === false && node.isStopNode === false && isMouseDown){
+                  toggleWall(rowIndex, colIndex)
+                }
+
+                else if( node.isStartNode){
+                  setIsStartNodeMoved(true)
+                }
+
+                else if( node.isEndNode){
+                  setIsEndNodeMoved(true)
+                }
+
+                else if( node.isStopNode){
+                  setIsStopNodeMoved(true)
+                }
+            }}
+
+            onMouseEnter={()=>{
+              if(deactivateButtons){return};
+              if(node.isEndNode===false && node.isStartNode === false && node.isStopNode === false && isMouseDown && isStartNodeMoved===false && isEndNodeMoved === false && isStopNodeMoved ===false){
+                toggleWall(rowIndex, colIndex)
+              }
+
+              else if(isStartNodeMoved){
+                node.isWall = false
+                node.isStartNode = true
+                setGrid([...grid])
+                if(timesRan>0){
+                  setTimesRan(timesRan+1);
+                }
+              }
+
+              else if(isEndNodeMoved){
+                node.isWall = false
+                node.isEndNode = true
+                setGrid([...grid])
+                if(timesRan>0){
+                  setTimesRan(timesRan+1);
+                }
+              }
+
+              else if(isStopNodeMoved){
+                node.isWall = false
+                node.isStopNode = true
+                setGrid([...grid])
+                if(timesRan>0){
+                  setTimesRan(timesRan+1);
+                }
+              }
+            }}
+
+            onMouseLeave={()=>{
+              if(deactivateButtons){return};
+              if(isStartNodeMoved){
+                node.isStartNode = false;
+                setGrid([...grid])
+              }
+
+              else if(isEndNodeMoved){
+                node.isEndNode = false;
+                setGrid([...grid])
+              }
+
+              else if(isStopNodeMoved){
+                node.isStopNode = false;
+                setGrid([...grid])
+              }
+            }}
+
+            onMouseUp={()=>{
+              if(deactivateButtons){return};
+              setIsMouseDown(false);
+              setIsStartNodeMoved(false)
+              setIsEndNodeMoved(false)
+              setIsStopNodeMoved(false)
+            }}
+            
+            >
+
+          </div>
+        ))}
+      </div>
+    ))}
+  </div>
+  )
+}
+
+/*onMouseDown={()=>{
               if(deactivateButtons){return};
                 setIsMouseDown(true)
                   if(node.isEndNode===false && node.isStartNode === false && node.isStopNode === false && isMouseDown){
@@ -341,12 +434,4 @@ export const Grid = () => {
               else if(node.isEndNode===false && node.isStartNode === false && node.isStopNode === false){
                 toggleWall(rowIndex, colIndex)
               }
-            }}>
-
-          </div>
-        ))}
-      </div>
-    ))}
-  </div>
-  )
-}
+            }}*/

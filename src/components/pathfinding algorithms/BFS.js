@@ -1,4 +1,4 @@
-export const BFS = (grid, rows, cols) => {
+export const BFS = (grid, rows, cols,addStop) => {
     let startNode = grid.flat().find(node => node.isStartNode);
     let endNode = grid.flat().find(node => node.isEndNode);
     let explored = [];
@@ -8,6 +8,8 @@ export const BFS = (grid, rows, cols) => {
     let firstShortestPath = null;
     let secondExplored = null;
     let secondShortestPath = null;
+
+    if(!startNode || !endNode || (!stopNode && addStop === "Remove")){return} //If start,stop or end nodes are dragged and the cursor is out of the grid
 
     const assignEdges = (node) => {
         const edges = {};
