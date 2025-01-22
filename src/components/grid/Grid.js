@@ -6,6 +6,7 @@ import { Prims } from "../maze algorithms/Prims";
 import { AppContext } from "../AppContext";
 import { GreedyBestFirstSearch } from "../pathfinding algorithms/GreedyBestFirstSearch";
 import { BFS } from "../pathfinding algorithms/BFS";
+import { Tutorial } from "../Tutorial";
 
 
 
@@ -274,6 +275,17 @@ export const Grid = () => {
             //className={`grid-cell ${node.isStartNode ? "isStartNode":node.isEndNode ? "isEndNode" :node.isWall ? "wall" : shortestPath.includes(`${node.rowIndex} ${node.colIndex}`)? "path" : node.shortestTime !== Number.MAX_SAFE_INTEGER? "visited":""}`}
             className={`grid-cell ${node.isStartNode ? "isStartNode":node.isEndNode ? "isEndNode" : node.isStopNode ? "isStopNode" :node.isWall ? "wall" : shortestPath.includes(`${node.rowIndex} ${node.colIndex}`)? "path" : visited2.includes(`${node.rowIndex} ${node.colIndex}`) ? "visited2" : visited.includes(`${node.rowIndex} ${node.colIndex}`) ? "visited": ""}`}
 
+            onClick={()=>{
+              if(deactivateButtons){return};
+              //some times react does not work properly with mouse enter and exit so this is an extra check to prevent errors
+              if(node.isStartNode || node.isEndNode || node.isStopNode){
+                node.isWall = false;
+              }
+              else if(node.isEndNode===false && node.isStartNode === false && node.isStopNode === false){
+                toggleWall(rowIndex, colIndex)
+              }
+            }}
+            
             onMouseDown={()=>{
               if(deactivateButtons){return};
                 setIsMouseDown(true)

@@ -1,0 +1,103 @@
+.tutorialBg {
+    height: 100%;
+    width: 100%;
+    background-color: lightgray;
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tutorialContainer {
+    height: 80vh;
+    width: 90vw;
+    border-radius: 18px;
+    max-width: 700px;
+    max-height: 500px;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    display: flex;
+    flex-direction: column;
+    padding: 25px;
+}
+
+.tutorialContainer .title {
+    display: inline-block;
+    text-align: center;
+    margin-top: 5px;
+    font-size: 2rem;
+}
+
+.slideIdentifier {
+    display: flex;
+    justify-content: flex-end;
+
+}
+
+.body {
+    height: 60%;
+    display: flex;
+    flex: 50%;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 0;
+    padding:0;
+}
+
+.images{
+    width: 45%;
+    height: 45%;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+    border-radius: 8px;
+}
+
+.btnContainer {
+    height: 15%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    justify-content: space-between;
+}
+
+.btnContainer .skipBtn,
+.btnContainer .previousBtn,
+.btnContainer .nextBtn {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btnContainer .skipBtn {
+    background-color: tomato;
+}
+
+.btnContainer .skipBtn:hover {
+    background-color: darkred;
+    transform: scale(1.05);
+}
+
+.btnContainer .nextBtn,
+.btnContainer .previousBtn  {
+    background-color: #6CB4EE;
+}
+
+.btnContainer .previousBtn:hover ,
+.btnContainer .nextBtn:hover {
+    background-color: darkblue;
+    transform: scale(1.05);
+}
+
+.btnContainer .prevNextContainer {
+    flex-direction: row;
+    display: flex;
+    align-items: center;
+    gap: 7%;
+}
