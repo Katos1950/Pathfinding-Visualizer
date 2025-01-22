@@ -1,5 +1,5 @@
-import React, { useContext, useState } from 'react';
-import { AppContext } from './AppContext';
+import React, { useContext, useRef, useState, useEffect } from "react";
+import { AppContext } from "./AppContext";
 
 export const Header = () => {
   const {
@@ -21,14 +21,18 @@ export const Header = () => {
   const [isSpeedOpen, setSpeedOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
+  const algorithmRef = useRef(null);
+  const mazesRef = useRef(null);
+  const speedRef = useRef(null);
+
   const closeModal = () => setShowModal(false);
 
   const toggleDropdown = (dropdown) => {
-    if (dropdown === 'algorithm') {
+    if (dropdown === "algorithm") {
       setAlgorithmOpen(!isAlgorithmOpen);
       setMazesOpen(false);
       setSpeedOpen(false);
-    } else if (dropdown === 'mazes') {
+    } else if (dropdown === "mazes") {
       setMazesOpen(!isMazesOpen);
       setAlgorithmOpen(false);
       setSpeedOpen(false);
@@ -39,11 +43,33 @@ export const Header = () => {
     }
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        algorithmRef.current &&
+        !algorithmRef.current.contains(event.target)
+      ) {
+        setAlgorithmOpen(false);
+      }
+      if (mazesRef.current && !mazesRef.current.contains(event.target)) {
+        setMazesOpen(false);
+      }
+      if (speedRef.current && !speedRef.current.contains(event.target)) {
+        setSpeedOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <header className="bg-slate-700 text-white shadow-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row justify-between items-center sm:h-16 py-4 sm:py-0">
-
           {/* Title */}
           <div className="text-xl font-bold text-center sm:text-left">
             <a href="/">PathFinding Visualizer</a>
@@ -53,11 +79,15 @@ export const Header = () => {
           <div className="my-4 sm:my-0">
             <button
               className={`${
-                deactivateButtons ? 'bg-gray-500' : 'bg-cyan-500'
-              } ${deactivateButtons ? 'hover:bg-gray-500' : 'hover:bg-blue-500'} px-4 py-2 rounded text-white`}
+                deactivateButtons ? "bg-gray-500" : "bg-cyan-500"
+              } ${
+                deactivateButtons
+                  ? "hover:bg-gray-500"
+                  : "hover:bg-blue-500"
+              } px-4 py-2 rounded text-white`}
               disabled={deactivateButtons}
               onClick={() => {
-                if (visualizeButtonText === 'Algorithm') {
+                if (visualizeButtonText === "Algorithm") {
                   setShowModal(true);
                 } else {
                   setTriggerAlgorithm(visualizeButtonText);
@@ -77,7 +107,9 @@ export const Header = () => {
               >
                 <div className="relative p-4 w-full max-w-sm bg-white rounded-lg shadow dark:bg-gray-700">
                   <div className="p-4 space-y-4">
-                    <p className="text-2xl leading-relaxed text-gray-700">Select an Algorithm</p>
+                    <p className="text-2xl leading-relaxed text-gray-700">
+                      Select an Algorithm
+                    </p>
                     <button
                       className="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                       onClick={closeModal}
@@ -93,13 +125,13 @@ export const Header = () => {
           {/* Navigation */}
           <nav className="flex flex-wrap justify-center sm:justify-start items-center gap-4">
             {/* Algorithms Dropdown */}
-            <div>
-            <button
+            <div ref={algorithmRef}>
+              <button
                 className={`px-4 py-2 rounded ${
-                  deactivateButtons ? 'hover:bg-gray-500' : 'hover:bg-blue-500'
+                  deactivateButtons ? "hover:bg-gray-500" : "hover:bg-blue-500"
                 }`}
                 disabled={deactivateButtons}
-                onClick={() => toggleDropdown('algorithm')}
+                onClick={() => toggleDropdown("algorithm")}
               >
                 Algorithms
               </button>
@@ -108,8 +140,8 @@ export const Header = () => {
                   <button
                     className="block px-4 py-2 hover:bg-gray-100 w-full text-left"
                     onClick={() => {
-                      setVisualizeButtonText('Djikstra');
-                      toggleDropdown('algorithm');
+                      setVisualizeButtonText("Djikstra");
+                      toggleDropdown("algorithm");
                     }}
                   >
                     Djikstra
@@ -117,8 +149,8 @@ export const Header = () => {
                   <button
                     className="block px-4 py-2 hover:bg-gray-100 w-full text-left"
                     onClick={() => {
-                      setVisualizeButtonText('BFS');
-                      toggleDropdown('algorithm');
+                      setVisualizeButtonText("BFS");
+                      toggleDropdown("algorithm");
                     }}
                   >
                     BFS
@@ -126,8 +158,8 @@ export const Header = () => {
                   <button
                     className="block px-4 py-2 hover:bg-gray-100 w-full text-left"
                     onClick={() => {
-                      setVisualizeButtonText('Greedy Best First Search');
-                      toggleDropdown('algorithm');
+                      setVisualizeButtonText("Greedy Best First Search");
+                      toggleDropdown("algorithm");
                     }}
                   >
                     Greedy Best First Search
@@ -137,13 +169,13 @@ export const Header = () => {
             </div>
 
             {/* Mazes Dropdown */}
-            <div>
+            <div ref={mazesRef}>
               <button
                 className={`px-4 py-2 rounded ${
-                  deactivateButtons ? 'hover:bg-gray-500' : 'hover:bg-blue-500'
+                  deactivateButtons ? "hover:bg-gray-500" : "hover:bg-blue-500"
                 }`}
                 disabled={deactivateButtons}
-                onClick={() => toggleDropdown('mazes')}
+                onClick={() => toggleDropdown("mazes")}
               >
                 Mazes
               </button>
@@ -152,9 +184,9 @@ export const Header = () => {
                   <button
                     className="block px-4 py-2 hover:bg-gray-100 w-full text-left"
                     onClick={() => {
-                      setTriggerMaze('Prims');
-                      setAddStop('Add');
-                      toggleDropdown('mazes');
+                      setTriggerMaze("Prims");
+                      setAddStop("Add");
+                      toggleDropdown("mazes");
                     }}
                   >
                     Prims Algorithm
@@ -167,10 +199,10 @@ export const Header = () => {
             <div>
               <button
                 className={`px-4 py-2 rounded ${
-                  deactivateButtons ? 'hover:bg-gray-500' : 'hover:bg-blue-500'
+                  deactivateButtons ? "hover:bg-gray-500" : "hover:bg-blue-500"
                 }`}
                 disabled={deactivateButtons}
-                onClick={() => setAddStop(addStop === 'Add' ? 'Remove' : 'Add')}
+                onClick={() => setAddStop(addStop === "Add" ? "Remove" : "Add")}
               >
                 {addStop} a Stop
               </button>
@@ -180,7 +212,7 @@ export const Header = () => {
             <div>
               <button
                 className={`px-4 py-2 rounded ${
-                  deactivateButtons ? 'hover:bg-gray-500' : 'hover:bg-blue-500'
+                  deactivateButtons ? "hover:bg-gray-500" : "hover:bg-blue-500"
                 }`}
                 disabled={deactivateButtons}
                 onClick={() => setClearBoard(!clearBoard)}
@@ -190,13 +222,13 @@ export const Header = () => {
             </div>
 
             {/* Speed Dropdown */}
-            <div>
+            <div ref={speedRef}>
               <button
                 className={`px-4 py-2 rounded ${
-                  deactivateButtons ? 'hover:bg-gray-500' : 'hover:bg-blue-500'
+                  deactivateButtons ? "hover:bg-gray-500" : "hover:bg-blue-500"
                 }`}
                 disabled={deactivateButtons}
-                onClick={() => toggleDropdown('speed')}
+                onClick={() => toggleDropdown("speed")}
               >
                 Speed: {speed}
               </button>
@@ -205,8 +237,8 @@ export const Header = () => {
                   <button
                     className="block px-4 py-2 hover:bg-gray-100 w-full text-left"
                     onClick={() => {
-                      setSpeed('Fast');
-                      toggleDropdown('speed');
+                      setSpeed("Fast");
+                      toggleDropdown("speed");
                     }}
                   >
                     Fast
@@ -214,8 +246,8 @@ export const Header = () => {
                   <button
                     className="block px-4 py-2 hover:bg-gray-100 w-full text-left"
                     onClick={() => {
-                      setSpeed('Average');
-                      toggleDropdown('speed');
+                      setSpeed("Average");
+                      toggleDropdown("speed");
                     }}
                   >
                     Average
@@ -223,8 +255,8 @@ export const Header = () => {
                   <button
                     className="block px-4 py-2 hover:bg-gray-100 w-full text-left"
                     onClick={() => {
-                      setSpeed('Slow');
-                      toggleDropdown('speed');
+                      setSpeed("Slow");
+                      toggleDropdown("speed");
                     }}
                   >
                     Slow
