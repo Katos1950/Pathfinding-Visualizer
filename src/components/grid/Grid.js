@@ -196,7 +196,7 @@ export const Grid = () => {
         }
 
         if(path2 !== null && explored2 !== null){
-          path = [...path,...path2];console.log(path)
+          path = [...path,...path2]
           //explored = [...explored,...explored2]
         }
         if(timesRan === 1){
@@ -314,7 +314,6 @@ export const Grid = () => {
               }
 
               else if(isStartNodeMoved){
-                node.isWall = false
                 node.isStartNode = true
                 setGrid([...grid])
                 if(timesRan>0){
@@ -323,7 +322,6 @@ export const Grid = () => {
               }
 
               else if(isEndNodeMoved){
-                node.isWall = false
                 node.isEndNode = true
                 setGrid([...grid])
                 if(timesRan>0){
@@ -332,7 +330,6 @@ export const Grid = () => {
               }
 
               else if(isStopNodeMoved){
-                node.isWall = false
                 node.isStopNode = true
                 setGrid([...grid])
                 if(timesRan>0){
@@ -361,6 +358,8 @@ export const Grid = () => {
 
             onMouseUp={()=>{
               if(deactivateButtons){return};
+              // if(node.isStartNode || node.isEndNode || node.isStopNode)
+              //   node.isWall = false;
               setIsMouseDown(false);
               setIsStartNodeMoved(false)
               setIsEndNodeMoved(false)

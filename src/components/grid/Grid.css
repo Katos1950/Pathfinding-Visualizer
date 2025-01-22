@@ -74,9 +74,18 @@
     animation: colorChangeRed 0.5s linear;
   }
 
+  @keyframes pathAnimate {
+    0% {background-image: url("../../images/path.png"); opacity: 10% ;}
+    25% {background-image: url("../../images/path.png"); opacity: 25% ;}
+    50% {background-image: url("../../images/path.png"); opacity: 50% ;}
+    75% {background-image: url("../../images/path.png"); opacity: 75% ;}
+    100% {background-image: url("../../images/path.png"); opacity: 100% ;}
+  }
+
   .grid-cell.path {
     background-image: url("../../images/path.png");
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
+    animation: pathAnimate 0.5s linear;
   }

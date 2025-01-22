@@ -107,15 +107,17 @@ export const Header = () => {
               >
                 <div className="relative p-4 w-full max-w-sm bg-white rounded-lg shadow dark:bg-gray-700">
                   <div className="p-4 space-y-4">
-                    <p className="text-2xl leading-relaxed text-gray-700">
+                    <p className="text-2xl leading-relaxed text-white">
                       Select an Algorithm
                     </p>
+                    <div className="flex items-center justify-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
                     <button
-                      className="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                      className="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-8 py-3 text-center"
                       onClick={closeModal}
                     >
                       OK
                     </button>
+                    </div>
                   </div>
                 </div>
               </div>
