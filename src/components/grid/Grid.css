@@ -75,11 +75,11 @@
   }
 
   @keyframes pathAnimate {
-    0% {background-image: url("../../images/path.png"); opacity: 10% ;}
-    25% {background-image: url("../../images/path.png"); opacity: 25% ;}
-    50% {background-image: url("../../images/path.png"); opacity: 50% ;}
-    75% {background-image: url("../../images/path.png"); opacity: 75% ;}
-    100% {background-image: url("../../images/path.png"); opacity: 100% ;}
+    0% { opacity: 10% ;}
+    25% { opacity: 25% ;}
+    50% { opacity: 50% ;}
+    75% { opacity: 75% ;}
+    100% {opacity: 100% ;}
   }
 
   .grid-cell.path {
