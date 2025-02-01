@@ -69,7 +69,7 @@ export const Header = () => {
   return (
     <header className="bg-slate-700 text-white shadow-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col sm:flex-row justify-between items-center sm:h-16 py-4 sm:py-0">
+        <div className="flex flex-col sm:flex-row justify-between items-center sm:h-40 lg:h-16 py-4 sm:py-0">
           {/* Title */}
           <div className="text-xl font-bold text-center sm:text-left">
             <a href="/">PathFinding Visualizer</a>
