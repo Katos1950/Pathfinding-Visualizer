@@ -107,7 +107,7 @@ export const Header = () => {
               >
                 <div className="relative p-4 w-full max-w-sm bg-white rounded-lg shadow dark:bg-gray-700">
                   <div className="p-4 space-y-4">
-                    <p className="text-2xl leading-relaxed text-white">
+                    <p className="text-2xl leading-relaxed text-black dark:text-white">
                       Select an Algorithm
                     </p>
                     <div className="flex items-center justify-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
